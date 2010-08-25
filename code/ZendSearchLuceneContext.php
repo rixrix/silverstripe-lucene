@@ -16,13 +16,13 @@ class ZendSearchLuceneContext {
      * Returns a set of results from Zend Search Lucene from the given search
      * parameters.
      *
-	 * @param array $searchParams
+	 * @param Mixed $query
 	 * @return DataObjectSet
      */
-    public static function find($keywords) {
-        $index = self::getIndex();
+    public static function find($query) {
+        $index = self::getIndex();        
         try {
-            $hits = $index->find($keywords);
+            $hits = $index->find($query);
         } catch ( Exception $e) {
             $hits = array();
         }
@@ -57,6 +57,16 @@ class ZendSearchLuceneContext {
             self::$index = Zend_Search_Lucene::create($indexFilename);
         }
         return self::$index;
+    }
+
+    private static function getQuery() {
+        if ( ! self::$query ) {
+            self::$query = 
+        }
+    }
+
+    private static function setQuery($query) {
+    
     }
 
     /**

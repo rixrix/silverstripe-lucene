@@ -36,6 +36,20 @@ class ZendSearchLuceneContentController extends Extension {
 	 * @param SS_HTTPRequest $request Request generated for this action
 	 */
 	function ZendSearchLuceneResults($data, $form, $request) {
+		$query = $form->dataFieldByName('Search')->dataValue();
+		$hits = ZendSearchLuceneContext::find($query);
+        $data = $this->getDataArrayFromHits($hits, $request);        
+		return $this->owner->customise($data)->renderWith(array('Page_results', 'Page'));
+	}
+
+    /**
+     * Returns a data array suitable for customising a Page with, containing
+     * search result and pagination information.
+     * @param Array $hits An array of Zend_Search_Lucene_Search_QueryHit objects
+     * @param SS_HTTPRequest $request 
+     * @return Array 
+     */
+    protected function getDataArrayFromHits($hits, $request) {
 		$data = array(
 			'Results' => null,
 			'Query' => null,
@@ -49,13 +63,11 @@ class ZendSearchLuceneContentController extends Extension {
 			'NextUrl' => DBField::create('Text', 'false'),
 			'SearchPages' => new DataObjectSet()
 		);
-
+		
         $pageLength = ZendSearchLuceneSearchable::$pageLength;              // number of results per page
         $alwaysShowPages = ZendSearchLuceneSearchable::$alwaysShowPages;    // always show this many pages in pagination
         $maxShowPages = ZendSearchLuceneSearchable::$maxShowPages;          // maximum number of pages shown in pagination
-		
-		$query = $form->dataFieldByName('Search')->dataValue();
-		$hits = ZendSearchLuceneContext::find($query);
+
 		$start = $request->requestVar('start') ? (int)$request->requestVar('start') : 0;
 		$currentPage = floor( $start / $pageLength ) + 1;
 		$totalPages = ceil( count($hits) / $pageLength );
@@ -168,6 +180,7 @@ class ZendSearchLuceneContentController extends Extension {
             }
         }
         
-		return $this->owner->customise($data)->renderWith(array('Page_results', 'Page'));
-	}
+        return $data;
+    }
+
 }
