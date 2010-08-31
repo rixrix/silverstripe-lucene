@@ -59,16 +59,6 @@ class ZendSearchLuceneContext {
         return self::$index;
     }
 
-    private static function getQuery() {
-        if ( ! self::$query ) {
-            self::$query = 
-        }
-    }
-
-    private static function setQuery($query) {
-    
-    }
-
     /**
      * Indexes a DataObject.
      */

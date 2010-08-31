@@ -25,6 +25,7 @@ class ZendSearchLuceneContentController extends Extension {
 		);
 		$form = new Form($this->owner, 'ZendSearchLuceneForm', $fields, $actions);
         $form->disableSecurityToken();
+        $form->setFormMethod('get');
 		return $form;
 	}
 
@@ -38,8 +39,8 @@ class ZendSearchLuceneContentController extends Extension {
 	function ZendSearchLuceneResults($data, $form, $request) {
 		$query = $form->dataFieldByName('Search')->dataValue();
 		$hits = ZendSearchLuceneContext::find($query);
-        $data = $this->getDataArrayFromHits($hits, $request);        
-		return $this->owner->customise($data)->renderWith(array('Page_results', 'Page'));
+        $data = $this->getDataArrayFromHits($hits, $request);
+		return $this->owner->customise($data)->renderWith(array('Lucene_results', 'Page'));
 	}
 
     /**
@@ -97,7 +98,7 @@ class ZendSearchLuceneContentController extends Extension {
 		}
 		
 	    $data['Results'] = $results;
-	    $data['Query']   = DBField::create('Text', $query);
+	    $data['Query']   = DBField::create('Text', $request->requestVar('Search'));
 	    $data['TotalResults'] = DBField::create('Text', count($hits));
         $data['TotalPages'] = DBField::create('Text', $totalPages);
         $data['ThisPage'] = DBField::create('Text', $currentPage);
