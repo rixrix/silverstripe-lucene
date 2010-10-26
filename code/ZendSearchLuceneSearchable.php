@@ -76,6 +76,13 @@ class ZendSearchLuceneSearchable extends DataObjectDecorator {
     }
 
     /**
+     * Removes the object from the search index if it has been deleted.
+     */
+    function onAfterDelete() {
+        ZendSearchLuceneWrapper::delete($this->owner);
+    }
+
+    /**
      * Return an array of search field names.
      */
     public function getSearchedVars() {

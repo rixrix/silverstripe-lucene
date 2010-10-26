@@ -66,10 +66,7 @@ class ZendSearchLuceneWrapper {
         $index = self::getIndex();
 
         // Remove currently indexed data for this object
-        $term = new Zend_Search_Lucene_Index_Term($object->ID, 'ID');
-        foreach ($index->termDocs($term) as $id) {
-            $index->delete($id);
-        }
+        self::delete($object);
 
         $fields = explode(',', $object->getSearchFields());
         $fields = array_merge($object->getExtraSearchFields(), $fields);
@@ -85,10 +82,25 @@ class ZendSearchLuceneWrapper {
         if ( method_exists(get_class($object), 'Link') ) {
             $doc->addField(Zend_Search_Lucene_Field::UnIndexed('Link', $object->Link()));
         }
-            
+
         $index->addDocument($doc);
         $index->commit();
     }
+
+    /**
+     * Deleted a DataObject from the search index.
+     */
+    public static function delete($object) {
+        $index = self::getIndex();
+        $term = new Zend_Search_Lucene_Index_Term($object->ID, 'ID');
+        foreach ($index->termDocs($term) as $id) {
+            $doc = $index->getDocument($id);
+            if ( $doc->ClassName != $object->ClassName ) continue;
+$out .= 'existing record found, deleted: ';
+            $index->delete($id);
+        }
+    }
+
 
     /**
      * Builder method for returning a Zend_Search_Lucene_Field object based on 
