@@ -4,7 +4,7 @@
  * Provides indexing and searching facilities.
  *******************************************************************************/
 
-class ZendSearchLuceneContext {
+class ZendSearchLuceneWrapper {
 
     /* The name of the index. */
     public static $indexName = 'Silverstripe';

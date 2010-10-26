@@ -38,6 +38,11 @@ class ZendSearchLuceneSearchable extends DataObjectDecorator {
      */
     private static $extraSearchFields = array('ID','ClassName','LastEdited');
 
+    private static $defaultColumns = array(
+		'SiteTree' => 'Title,MenuTitle,Content,MetaTitle,MetaDescription,MetaKeywords',
+		'File' => 'Filename,Title,Content'
+	);
+
 	function __construct($searchFields) {
 		if(is_array($searchFields)) $this->searchFields = implode(',', $searchFields);
 		else $this->searchFields = $searchFields;
@@ -49,15 +54,11 @@ class ZendSearchLuceneSearchable extends DataObjectDecorator {
 	 * given data classes.
 	 */
 	public static function enable($searchableClasses = array('SiteTree', 'File')) {
-		$defaultColumns = array(
-			'SiteTree' => 'Title,MenuTitle,Content,MetaTitle,MetaDescription,MetaKeywords',
-			'File' => 'Filename,Title,Content'
-		);
 		
 		if(!is_array($searchableClasses)) $searchableClasses = array($searchableClasses);
 		foreach($searchableClasses as $class) {
-			if(isset($defaultColumns[$class])) {
-				Object::add_extension($class, "ZendSearchLuceneSearchable('{$defaultColumns[$class]}')");
+			if(isset(self::$defaultColumns[$class])) {
+				Object::add_extension($class, "ZendSearchLuceneSearchable('".self::$defaultColumns[$class]."')");
 			} else {
 				throw new Exception("ZendSearchLuceneSearchable::enable() I don't know the default search columns for class '$class'");
 			}
