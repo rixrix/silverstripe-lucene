@@ -72,7 +72,7 @@ class ZendSearchLuceneSearchable extends DataObjectDecorator {
      * Indexes the object after it has been written to the database.
      */
     public function onAfterWrite() {
-        ZendSearchLuceneContext::index($this->owner);
+        ZendSearchLuceneWrapper::index($this->owner);
     }
 
     /**

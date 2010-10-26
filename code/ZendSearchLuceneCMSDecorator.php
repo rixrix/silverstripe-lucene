@@ -8,7 +8,7 @@ class ZendSearchLuceneCMSDecorator extends LeftAndMainDecorator {
 
     public function rebuildZendSearchLuceneIndex() {
         set_time_limit(600);
-        ZendSearchLuceneContext::getIndex(true); // Wipes current index
+        ZendSearchLuceneWrapper::getIndex(true); // Wipes current index
         $count = 0;
         $possibleClasses = ClassInfo::subclassesFor('DataObject');
         $extendedClasses = array();

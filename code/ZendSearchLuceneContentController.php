@@ -38,7 +38,7 @@ class ZendSearchLuceneContentController extends Extension {
 	 */
 	function ZendSearchLuceneResults($data, $form, $request) {
 		$query = $form->dataFieldByName('Search')->dataValue();
-		$hits = ZendSearchLuceneContext::find($query);
+		$hits = ZendSearchLuceneWrapper::find($query);
         $data = $this->getDataArrayFromHits($hits, $request);
 		return $this->owner->customise($data)->renderWith(array('Lucene_results', 'Page'));
 	}
