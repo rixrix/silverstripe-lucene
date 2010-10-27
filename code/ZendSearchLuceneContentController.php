@@ -1,10 +1,11 @@
 <?php
+
 /**
  * Extension to provide a search interface when applied to ContentController
  * 
- * @package sapphire
- * @subpackage search
+ * @package lucene-silverstripe-plugin
  */
+ 
 class ZendSearchLuceneContentController extends Extension { 
 
 	static $allowed_actions = array(
@@ -13,12 +14,18 @@ class ZendSearchLuceneContentController extends Extension {
 	);
 	
 	/**
-	 * Site search form
+	 * Returns the Lucene-powered search Form object.
+	 *
+	 * @return  Form    A Form object representing the search form.
 	 */
 	function ZendSearchLuceneForm() {
 		$searchText = isset($_REQUEST['Search']) ? $_REQUEST['Search'] : '';
 		$fields = new FieldSet(
-			new TextField('Search', 'Search', $searchText)
+			new TextField(
+			    'Search', 
+			    _t('ZendSearchLuceneForm.SearchButtonText', 'Search'), 
+			    $searchText
+			)
 		);
 		$actions = new FieldSet(
 			new FormAction('ZendSearchLuceneResults', 'Go')
@@ -32,9 +39,10 @@ class ZendSearchLuceneContentController extends Extension {
 	/**
 	 * Process and render search results.
 	 * 
-	 * @param array $data The raw request data submitted by user
-	 * @param SearchForm $form The form instance that was submitted
-	 * @param SS_HTTPRequest $request Request generated for this action
+	 * @param   array           $data       The raw request data submitted by user
+	 * @param   Form            $form       The form instance that was submitted
+	 * @param   SS_HTTPRequest  $request    Request generated for this action
+	 * @return  String                      The rendered form, for inclusion into the page template.
 	 */
 	function ZendSearchLuceneResults($data, $form, $request) {
 		$query = $form->dataFieldByName('Search')->dataValue();
@@ -46,9 +54,10 @@ class ZendSearchLuceneContentController extends Extension {
     /**
      * Returns a data array suitable for customising a Page with, containing
      * search result and pagination information.
-     * @param Array $hits An array of Zend_Search_Lucene_Search_QueryHit objects
-     * @param SS_HTTPRequest $request 
-     * @return Array 
+     * 
+     * @param   Array           $hits       An array of Zend_Search_Lucene_Search_QueryHit objects
+     * @param   SS_HTTPRequest  $request    The request that generated the search
+     * @return  Array                       A custom array containing pagination data.
      */
     protected function getDataArrayFromHits($hits, $request) {
 		$data = array(

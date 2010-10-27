@@ -1,12 +1,21 @@
 <?php
 
+/**
+ * Adds a button the Site Config page of the CMS to rebuild the Lucene search index.
+ * 
+ * @package lucene-silverstripe-plugin
+ */
+ 
 class ZendSearchLuceneSiteConfig extends DataObjectDecorator {
 
+    /**
+     * Adds a button the Site Config page of the CMS to rebuild the Lucene search index.
+     */
     public function updateCMSActions(&$actions) {
         $actions->push(
             new InlineFormAction(
                 'rebuildZendSearchLuceneIndex',
-                'Rebuild Search Index'
+                _t('ZendSearchLuceneSiteConfig.RebuildIndexButtonText', 'Rebuild Search Index')
             )
         );
     }

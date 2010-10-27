@@ -2,13 +2,21 @@
 
 /**
  * Adds a function to LeftAndMain to rebuild the Lucene search index.
- * Possibly uses way too much memory...
+ *
+ * @package lucene-silverstripe-plugin
  */
+
 class ZendSearchLuceneCMSDecorator extends LeftAndMainDecorator {
 
+    /**
+     * Blanks the search index, and rebuilds it from scratch.
+     * Gets a list of all objects that have the Searchable extension, and indexes all of them.
+     *
+     * @return      String          The AJAX response to send to the CMS.
+     */
     public function rebuildZendSearchLuceneIndex() {
         set_time_limit(600);
-        $index = ZendSearchLuceneWrapper::getIndex(/*true*/); // Wipes current index
+        $index = ZendSearchLuceneWrapper::getIndex(true); // Wipes current index
         $count = 0;
         $indexed = array();
 
@@ -34,7 +42,13 @@ class ZendSearchLuceneCMSDecorator extends LeftAndMainDecorator {
             }
         }
 
-        FormResponse::status_message( 'The search engine has been rebuilt. '.$count.' entries were indexed.', 'good' );
+        FormResponse::status_message( 
+            sprintf(
+                _t('ZendSearchLuceneCMSDecorator.SuccessMessage', 'The search engine has been rebuilt. %s entries were indexed.'),
+                (int)$count
+            ),
+            'good' 
+        );
         return FormResponse::respond();
     }
 

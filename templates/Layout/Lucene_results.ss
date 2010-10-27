@@ -1,5 +1,5 @@
 
-                <p>Your search for <strong>&quot;$Query&quot;</strong> found $TotalResults results.</p>
+                <p>Your search for <strong>&quot;$Query&quot;</strong> found $TotalResults result<% if TotalResults != 1 %>s<% end_if %>.</p>
 
 <% if Results %>
                 <p>showing page $ThisPage of $TotalPages</p>
