@@ -88,7 +88,7 @@ class ZendSearchLuceneWrapper {
     }
 
     /**
-     * Deleted a DataObject from the search index.
+     * Delete a DataObject from the search index.
      */
     public static function delete($object) {
         $index = self::getIndex();
