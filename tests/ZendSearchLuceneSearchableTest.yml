@@ -1,0 +1,22 @@
+Page:
+    test1:
+        Title: Test 1
+        Content: Test word one
+    test2:
+        Title: Test 2
+        Content: Test word two
+    test3:
+        Title: Test 3
+        Content: Test word three
+    test4:
+        Title: Test 4
+        Content: Test word four
+    test5:
+        Title: Test 5
+        Content: Test word five
+
+File:
+    file1:
+        Filename: /dev/null
+        Title: File 1
+        Content: File 1 content

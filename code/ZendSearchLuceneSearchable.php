@@ -54,7 +54,6 @@ class ZendSearchLuceneSearchable extends DataObjectDecorator {
 	 * given data classes.
 	 */
 	public static function enable($searchableClasses = array('SiteTree', 'File')) {
-		
 		if(!is_array($searchableClasses)) $searchableClasses = array($searchableClasses);
 		foreach($searchableClasses as $class) {
 			if(isset(self::$defaultColumns[$class])) {
