@@ -7,6 +7,12 @@ class A00_ZendSearchLuceneSearchableTest extends SapphireTest {
     static $fixture_file = 'lucene-silverstripe-plugin/tests/ZendSearchLuceneSearchableTest.yml';
 
     public function testEnable() {
+        // test for baddies in _config.php
+        if ( Object::has_extension('ContentController', 'ZendSearchLuceneContentController') ) {
+            echo '<p>Please remove calls to ZendSearchLuceneSearchable::enable() from your _config.php file before running tests.</p>';
+            die();
+        }
+
         // Setup
         Object::remove_extension('ContentController', 'ZendSearchLuceneContentController');
         Object::remove_extension('SiteConfig', 'ZendSearchLuceneSiteConfig');

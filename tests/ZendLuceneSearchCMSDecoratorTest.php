@@ -29,13 +29,13 @@ class ZendSearchLuceneCMSDecoratorTest extends SapphireTest {
         $SiteTreeCount = DataObject::get('SiteTree')->count();
         $FileCount = DataObject::get('File')->count();
         $IndexableCount = $SiteTreeCount + $FileCount;
-        
+
         // Re-index database
         $obj = new ZendSearchLuceneCMSDecorator();
         $obj->rebuildZendSearchLuceneIndex();
 
         // Has correct number of items?
-        $this->assertEquals( $IndexableCount, $index->count() );
+        $this->assertEquals( $IndexableCount, ZendSearchLuceneWrapper::getIndex()->count() );
         
     }
 
