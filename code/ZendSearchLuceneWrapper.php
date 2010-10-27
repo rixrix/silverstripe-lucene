@@ -38,7 +38,6 @@ class ZendSearchLuceneWrapper {
      */
     public static function find($query) {
         $index = self::getIndex();
-        echo get_class( $index );
         try {
             $hits = $index->find($query);
         } catch ( Exception $e) {
