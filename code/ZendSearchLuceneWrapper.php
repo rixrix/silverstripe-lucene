@@ -44,7 +44,6 @@ class ZendSearchLuceneWrapper {
         } catch ( Exception $e) {
             $hits = array();
         }
-        var_dump( $hits);
 		return $hits;
     }
 
