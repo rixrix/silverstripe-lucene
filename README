@@ -64,6 +64,17 @@ will be indexed whenever an object of this class is written to the database:
 'SiteTree' => 'Title,MenuTitle,Content,MetaTitle,MetaDescription,MetaKeywords',
 'File' => 'Filename,Title,Content'
 
+After enabling the search engine, you will need to build the index for the first 
+time.  There is a new button marked 'Rebuild search index' on the SiteConfig 
+page, which is the page in the LHS column at the top, with the name of the site.
+
+If you just want to get Lucene up and running as quickly as possible, you can 
+skip down to the 'Usage Overview' section below - that's all the configuration 
+you need to do!
+
+
+INDEXING CLASSES
+
 If you wish to enable the search engine, but not automatically add the extension 
 to SiteTree and/or File, pass in an array containing the classes to index: 
 (this only accepts SiteTree and File, see below for indexing other classes)
@@ -76,27 +87,18 @@ ZendSearchLuceneSearchable::enable(array('File'));
 // Do not automatically add the extension to any classes
 ZendSearchLuceneSearchable::enable(array());
 
-After enabling the search engine, you will need to build the index for the first 
-time.  There is a new button marked 'Rebuild search index' on the SiteConfig 
-page, which is the page in the LHS column at the top, with the name of the site.
-
-
-INDEXING CLASSES
-
 In order to index classes other than the defaults, you need to add the 
 ZendSearchLuceneSearchable extension with a list of which fields to index.
 
 For instance, to index your custom Page class, which has custom Summary and 
 Intro fields added: 
 
-{{{
 Object::add_extension(
     'Page',
     "ZendSearchLuceneSearchable('"
     ."Title,MenuTitle,MetaTitle,MetaDescription,MetaKeywords,"
     ."Summary,Intro,Content')"
 );
-}}}
 
 There are four types of indexing used in Lucene:
 
