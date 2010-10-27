@@ -4,6 +4,7 @@
  * Adds a function to LeftAndMain to rebuild the Lucene search index.
  *
  * @package lucene-silverstripe-plugin
+ * @author Darren Inwood <darren.inwood@chrometoaster.com>
  */
 
 class ZendSearchLuceneCMSDecorator extends LeftAndMainDecorator {

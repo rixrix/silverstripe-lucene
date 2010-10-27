@@ -1,0 +1,331 @@
+###############################################
+Lucene plugin for SilverStripe 2.4
+###############################################
+
+This plugin for the SilverStripe framework allows you to harness the power of 
+the Lucene search engine on your site.
+
+It is easy to set up and use.
+
+This plugin uses Zend_Search_Lucene from Zend, and StandardAnalyzer by Kenny 
+Katzgrau.
+
+Zend_Search_Lucene is a PHP port of the Apache project's Lucene search engine.
+
+This extension is inspired by the wpSearch plugin for WordPress.
+http://codefury.net/projects/wpSearch/
+
+
+Maintainer Contact
+-----------------------------------------------
+Darren Inwood
+<darren (dot) inwood (at) chrometoaster (dot) com>
+
+
+Requirements
+-----------------------------------------------
+SilverStripe 2.4 or newer
+
+
+Documentation
+-----------------------------------------------
+http://code.google.com/p/lucene-silverstripe-plugin/
+
+
+Installation Instructions
+-----------------------------------------------
+
+Check out the archive into the root directory of your project.  This should be 
+the same folder as the 'sapphire' directory.
+
+Via SVN:
+svn export http://lucene-silverstripe-plugin.googlecode.com/svn/trunk/ lucene
+
+This will create a directory called 'lucene' containing the plugin files.
+
+Run /dev/build to tell your SilverStripe about your new module, and your module 
+is installed!
+
+
+Configuration Instructions
+-----------------------------------------------
+
+ENABLING THE SEARCH ENGINE
+
+By default, the Lucene Search engine is not enabled.  To enable it, you need to 
+add the following into your _config.php file:
+
+ZendSearchLuceneSearchable::enable();
+
+This will configure all SiteTree and File objects by adding the 
+'ZendSearchLuceneSearchable' extension to those classes.  The following fields 
+will be indexed whenever an object of this class is written to the database:
+
+'SiteTree' => 'Title,MenuTitle,Content,MetaTitle,MetaDescription,MetaKeywords',
+'File' => 'Filename,Title,Content'
+
+If you wish to enable the search engine, but not automatically add the extension 
+to SiteTree and/or File, pass in an array containing the classes to index: 
+(this only accepts SiteTree and File, see below for indexing other classes)
+
+// Use one of these lines to control which classes to extend
+ZendSearchLuceneSearchable::enable(array('SiteTree', 'File'));
+ZendSearchLuceneSearchable::enable(array('SiteTree'));
+ZendSearchLuceneSearchable::enable(array('File'));
+
+// Do not automatically add the extension to any classes
+ZendSearchLuceneSearchable::enable(array());
+
+After enabling the search engine, you will need to build the index for the first 
+time.  There is a new button marked 'Rebuild search index' on the SiteConfig 
+page, which is the page in the LHS column at the top, with the name of the site.
+
+
+INDEXING CLASSES
+
+In order to index classes other than the defaults, you need to add the 
+ZendSearchLuceneSearchable extension with a list of which fields to index.
+
+For instance, to index your custom Page class, which has custom Summary and 
+Intro fields added: 
+
+{{{
+Object::add_extension(
+    'Page',
+    "ZendSearchLuceneSearchable('"
+    ."Title,MenuTitle,MetaTitle,MetaDescription,MetaKeywords,"
+    ."Summary,Intro,Content')"
+);
+}}}
+
+There are four types of indexing used in Lucene:
+
+1. Keyword - Data that is searchable and stored in the index, but not broken up 
+into tokens for indexing. This is useful for being able to search on non-textual 
+data such as IDs or URLs.
+
+2. UnIndexed - Data that isn’t available for searching, but is stored with our 
+document (eg. article teaser, article URL  and timestamp of creation)
+
+3. UnStored - Data that is available for search, but isn’t stored in the index 
+in full (eg. the document content)
+
+4. Text – Data that is available for search and is stored in full (eg. title and 
+author)
+
+The MenuTitle, MetaTitle, MetaDescription and MetaKeywords fields will be 
+indexed as Unstored.
+LastEdited and Created fields will be Unindexed.
+ID and ClassName fields will be indexed as Keyword types.
+All other fields will be indexed as Text.
+
+Currently you cannot index relationship fields.
+
+
+PAGINATION
+
+There are some pagination settings that allow you to control the pagination 
+functions:  (Put these in your _config.php to change them)
+
+// Number of results to show on each page
+ZendSearchLuceneSearchable::$pageLength = 10;
+
+// Maximum number of pages to show in the pagination
+ZendSearchLuceneSearchable::$maxShowPages = 10;
+
+// Always show this number of pages at the start of the pagination
+ZendSearchLuceneSearchable::$alwaysShowPages = 3;
+
+
+INDEX DIRECTORY
+
+You can also set where to store the index:
+
+// These are the defaults.
+ZendSearchLuceneSearchable::$cacheDirectory = TEMP_FOLDER;
+ZendSearchLuceneWrapper::$indexName = 'Silverstripe';
+
+With the default settings, the index will be created in the SilverStripe temp 
+folder, and will be called 'SilverStripe'.
+
+
+ADVANCED INDEX CONFIGURATION
+
+http://zendframework.com/manual/en/zend.search.lucene.index-creation.html#zend.search.lucene.index-creation.optimization
+
+You can use advanced configuration functions directly on the index:
+
+$index = ZendSearchLuceneWrapper::getIndex();
+
+// Retrieving index size
+$indexSize = $index->count();
+$documents = $index->numDocs();
+
+// Index optimisation
+$index->optimize();
+
+You can also specify operations to be run on newly created indexes using 
+ZendSearchLuceneWrapper::addCreateIndexCallback().  On creation, any callbacks 
+registered using this function are run.  This allows you to set up any 
+optimisation options you require on your index.  The Zend defaults are used if 
+no callbacks are registered.
+
+To use a callback, you can put something like this in your _config.php:
+
+function create_index_callback() {
+    $index = ZendSeachLuceneWrapper::getIndex();
+    $index->setMaxBufferedDocs(20);
+}
+ZendSearchLuceneWrapper::addCreateIndexCallback('create_index_callback');
+
+
+Usage Overview
+-----------------------------------------------
+
+Once you have configured and enabled the plugin, you can add a new token into 
+your template files to output the search form:
+
+<!-- START search form -->
+$ZendSearchLuceneForm
+<!-- END search form -->
+
+This will post to the action ZendSearchLuceneResults, which will display the 
+Search Results page.
+
+
+CUSTOM SEARCH FORM
+
+To customise your search form, override this method (or create a new one) and 
+output a Form object containing a field called 'Search' and an action of 
+ZendSearchLuceneResults.
+
+/* Custom search form */
+class Your_Controller extends Page_Controller {
+
+   // . . .
+
+   function ZendSearchLuceneForm() {
+      $form = parent::ZendSearchLuceneForm();
+      // Customise the form
+      return $form;
+   }
+
+}
+
+
+CUSTOM SEARCH RESULTS PAGE
+
+In the templates/Layout folder of the plugin, you will find the 
+Lucene_results.ss file.  Copy this file into your own theme's Layout folder, and 
+alter to your heart's content.
+
+Available templating tokens in this file are:
+
+$Query - The string that was searched for
+$TotalResults - Total number of hits for the search
+$TotalPages - Total number of pages for the query
+$ThisPage - The page number currently being viewed
+$StartResult - The number of the first result on this page
+$EndResult - The number of the last result on this page
+$PrevUrl - URL to the previous page of search results
+$NextUrl - URL to the next page of results
+
+<% control Results %>
+  <!-- DataObjectSet containing the search results for the current page -->
+  $score (relevance rating assigned by the search engine)
+  $Number (which number in the set this result is)
+  $Link (URL to this resource)
+  You can also use any fields that have been indexed, eg. $Content
+<% end_control %>
+
+<% control SearchPages %>
+  <!-- This is a DataObjectSet containing the pagination pages -->
+  $IsEllipsis  (whether this entry is a blank ellipsis to indicate more pages)
+  $PageNumber
+  $Link  (URL to this page of search results)
+  $Current   (Boolean indicating whether this is the current page)
+<% end_control %>  
+
+
+CUSTOMISE SEARCH FUNCTION
+
+Lucene is actually a very powerful search engine, you can do a lot with it.  If 
+you have a more advanced search function you want to implement, you can build 
+your own form and submit it to your own action.  Check the Zend docs on building 
+queries for how to build the query you want from the form fields you've 
+received.
+
+http://zendframework.com/manual/en/zend.search.lucene.searching.html
+
+class Your_Controller extends Page_Controller {
+
+    /**
+     * Use $AdvancedSearchForm in your template to output this form.
+     */
+    function AdvancedSearchForm() {
+        $fields = new FieldSet(
+            new TextField('Query','First search query'),
+            new TextField('Subquery', 'Second search query')
+        );
+        $actions = new FieldSet(
+            new FormAction('AdvancedSearchResults', 'Search')
+        );
+        $form = new Form($this->owner, 'AdvancedSearchForm', $fields, $actions);
+        $form->disableSecurityToken();
+        return $form;
+    }
+
+    /**
+     * Processes the search form
+     */
+    function AdvancedSearchResults($data, $form, $request) {
+        // Assemble your custom query 
+        $query = Zend_Search_Lucene_Search_QueryParser::parse(
+            $form->dataFieldByName('Query')->dataValue()
+        );
+        $subquery = Zend_Search_Lucene_Search_QueryParser::parse(
+            $form->dataFieldByName('Subquery')->dataValue()
+        );
+        $search = new Zend_Search_Lucene_Search_Query_Boolean();
+        $search->addSubquery($query, true);
+        $search->addSubquery($subquery, false);
+
+        // Get hits from the Lucene search engine.
+        $hits = ZendSearchLuceneWrapper::find($search);
+
+        // Convert these into a data array containing pagination info etc
+        $data = $this->getDataArrayFromHits($hits, $request);
+
+        // Display the results page
+        return $this->owner->customise($data)->renderWith(array('Advanced_results', 'Page'));
+    }
+
+}
+
+
+Caveats
+-----------------------------------------------
+
+If you already have Zend_Search_Lucene in your include path, this may act up.
+
+
+TODO
+-----------------------------------------------
+
+* Figure out some way to index relations
+* Implement an n-gram analyzer and SpellChecker
+* Abstract pagination stuff into a DataObjectSet extension
+* Allow the use of multiple indexes per project
+
+Links
+-----------------------------------------------
+
+wpSearch plugin for WordPress
+http://codefury.net/projects/wpSearch/ 
+
+Zend_Search_Lucene documentation
+http://zendframework.com/manual/en/zend.search.lucene.html
+
+
+
+

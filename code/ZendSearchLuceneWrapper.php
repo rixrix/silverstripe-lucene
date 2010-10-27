@@ -4,6 +4,7 @@
  * Provides a wrapper to Zend Search Lucene.
  *
  * @package lucene-silverstripe-plugin
+ * @author Darren Inwood <darren.inwood@chrometoaster.com>
  */
 
 class ZendSearchLuceneWrapper {
@@ -19,6 +20,12 @@ class ZendSearchLuceneWrapper {
      * @static
      */
     private static $index = false;
+
+    /**
+     * Stores callbacks to be run after search index creation.
+     * @static
+     */
+    private static $createIndexCallbacks = array();
 
     /**
      * Returns a set of results from Zend Search Lucene from the given search
@@ -50,7 +57,17 @@ class ZendSearchLuceneWrapper {
      * Retrieves a Zend_Search_Lucene_Interface object connected to the search
      * index.
      * 
-     * If the index does not exist, it is created.
+     * If the index does not exist, it is created.  On creation, any callbacks 
+     * added using ZendSearchLuceneWrapper::addCreateIndexCallback() are run.
+     * To use this feature, add your callback registration to your _config.php:
+     *
+     * <code>
+     * function create_index_callback() {
+     *     $index = ZendSeachLuceneWrapper::getIndex();
+     *     $index->setMaxBufferedDocs(20);
+     * }
+     * ZendSearchLuceneWrapper::addCreateIndexCallback('create_index_callback');
+     * </code>
      * 
      * The index lives in the directory specified by the $cacheDirectory static.
      * If the index already exists, it is opened, unless $forceCache is set
@@ -72,6 +89,11 @@ class ZendSearchLuceneWrapper {
             self::$index = Zend_Search_Lucene::open($indexFilename);
         } else {
             self::$index = Zend_Search_Lucene::create($indexFilename);
+            // Call all callbacks registered via 
+            // ZendSearchLuceneWrapper::addCreateIndexCallback()
+            foreach( self::$createIndexCallbacks as $callback ) {
+                call_user_func($callback);
+            }
         }
         return self::$index;
     }
@@ -189,6 +211,10 @@ class ZendSearchLuceneWrapper {
 
         // Default - index and store
         return Zend_Search_Lucene_Field::Text($fieldName, $object->$fieldName, $encoding);
+    }
+
+    public static function addCreateIndexCallback($callback) {
+        self::$createIndexCallbacks[] = $callback;
     }
 
 }

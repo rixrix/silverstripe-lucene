@@ -4,6 +4,7 @@
  * Extension to provide a search interface when applied to ContentController
  * 
  * @package lucene-silverstripe-plugin
+ * @author Darren Inwood <darren.inwood@chrometoaster.com>
  */
  
 class ZendSearchLuceneContentController extends Extension { 

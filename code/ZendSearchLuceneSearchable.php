@@ -22,6 +22,7 @@
  * </code>
  *
  * @package lucene-silverstripe-plugin
+ * @author Darren Inwood <darren.inwood@chrometoaster.com>
  */
 
 class ZendSearchLuceneSearchable extends DataObjectDecorator {
