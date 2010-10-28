@@ -45,11 +45,13 @@ class ZendSearchLuceneSearchable extends DataObjectDecorator {
      */
     static $maxShowPages = 8;       
 
-    /* The fields which can be searched for each dataobject class */
+    /** 
+     * The fields which can be searched for each DataObject class.
+     */
 	protected $searchFields;
 
     /**
-     * Encoding in which indexes are created and searches made 
+     * Encoding in which indexes are created and searches made.
      * @static
      */
     public static $encoding = 'utf-8';
