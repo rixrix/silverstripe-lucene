@@ -103,9 +103,11 @@ class ZendSearchLuceneContentController extends Extension {
 			$results->push($obj);
 		}
 		// filter by permission
+/*
 		if($results) foreach($results as $result) {
 			if(!$result->canView()) $results->remove($result);
 		}
+*/
 		
 	    $data['Results'] = $results;
 	    $data['Query']   = DBField::create('Text', $request->requestVar('Search'));
