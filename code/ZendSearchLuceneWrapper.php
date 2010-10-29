@@ -129,7 +129,9 @@ class ZendSearchLuceneWrapper {
         if ( method_exists(get_class($object), 'Link') ) {
             $doc->addField(Zend_Search_Lucene_Field::UnIndexed('Link', $object->Link()));
         }
-
+$fh = fopen('/home/darren/foo.txt','a');
+fwrite($fh, 'INDEXED');
+fclose($fh);
         $index->addDocument($doc);
         $index->commit();
     }
@@ -142,17 +144,20 @@ class ZendSearchLuceneWrapper {
      *                                  extension, it is not deleted.
      */
     public static function delete($object) {
+$fh = fopen('/home/darren/foo.txt','a');
         if ( ! Object::has_extension($object->ClassName, 'ZendSearchLuceneSearchable') ) {
+fwrite($fh, 'no extension!'."\n");
             return;
         }
-
         $index = self::getIndex();
-        $term = new Zend_Search_Lucene_Index_Term($object->ID, 'ID');
-        foreach ($index->termDocs($term) as $id) {
-            $doc = $index->getDocument($id);
-            if ( $doc->ClassName != $object->ClassName ) continue;
-            $index->delete($id);
+        foreach ($index->find('ID:'.$object->ID) as $hit) {
+fwrite($fh, 'Found index docID '.$id.' getclass='.var_export(get_class($hit),true).' docClassName='.var_export($hit->ClassName,true)."\n");
+            if ( $hit->ClassName != $object->ClassName ) continue;
+fwrite($fh, 'DELETED'."\n");
+            $index->delete($hit->id);
         }
+        $index->commit();
+fclose($fh);
     }
 
 

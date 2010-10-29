@@ -112,6 +112,11 @@ class ZendSearchLuceneSearchable extends DataObjectDecorator {
      * Indexes the object after it has been written to the database.
      */
     public function onAfterWrite() {
+        if ( Object::has_extension($this->owner->ClassName, 'Versioned') ) {
+            // Only index if we are creating/updating the Live version, and it hasn't just been deleted
+            $live_version_id = Versioned::get_versionnumber_by_stage($this->owner->ClassName, 'Live', $this->owner->ID, false);
+            if ( $live_version_id === null || $this->owner->Version != $live_version_id ) return;
+        }
         ZendSearchLuceneWrapper::index($this->owner);
     }
 
@@ -119,6 +124,11 @@ class ZendSearchLuceneSearchable extends DataObjectDecorator {
      * Removes the object from the search index after it has been deleted.
      */
     function onAfterDelete() {
+        if ( Object::has_extension($this->owner->ClassName, 'Versioned') ) {
+            // Only delete if the Live version no longer exists
+            $live_version_id = Versioned::get_versionnumber_by_stage($this->owner->ClassName, 'Live', $this->owner->ID, false);
+            if ( $live_version_id !== null ) return;
+        }
         ZendSearchLuceneWrapper::delete($this->owner);
     }
 
