@@ -7,8 +7,8 @@ the Lucene search engine on your site.
 
 It is easy to set up and use.
 
-This plugin uses Zend_Search_Lucene from Zend, and StandardAnalyzer by Kenny 
-Katzgrau.
+This plugin uses Zend_Search_Lucene from Zend, StandardAnalyzer by Kenny 
+Katzgrau, and pdf-to-text by Joeri Stegeman for PDF scanning.
 
 Zend_Search_Lucene is a PHP port of the Apache project's Lucene search engine.
 
@@ -45,6 +45,12 @@ This will create a directory called 'lucene' containing the plugin files.
 
 Run /dev/build to tell your SilverStripe about your new module, and your module 
 is installed!
+
+To enable pdf scanning using the pdftotext utility on Linux, ensure that the 
+command-line untility is installed.  If you are using Debian or Ubuntu, either 
+of the poppler-utils or xpdf-utils packages will provide this utility:
+
+apt-get install poppler-utils
 
 
 Configuration Instructions
@@ -122,6 +128,15 @@ ID and ClassName fields will be indexed as Keyword types.
 All other fields will be indexed as Text.
 
 Currently you cannot index relationship fields.
+
+
+INDEXING FILES
+
+Office 2007 files (docx, xlsx, and pptx) are scanned using Zend_Search_Lucene's 
+inbuilt scanning classes.
+
+PDF files are scanned using the PDF2Text library.
+
 
 
 PAGINATION

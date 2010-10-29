@@ -109,6 +109,9 @@ class ZendSearchLuceneWrapper {
         if ( ! Object::has_extension($object->ClassName, 'ZendSearchLuceneSearchable') ) {
             return;
         }
+        if ( $object->hasField('ShowInSearch') && $object->ShowInSearch != 1 ) {
+            return;
+        }
 
         $index = self::getIndex();
 
@@ -118,7 +121,36 @@ class ZendSearchLuceneWrapper {
         $fields = explode(',', $object->getSearchFields());
         $fields = array_merge($object->getExtraSearchFields(), $fields);
 
-        $doc = new Zend_Search_Lucene_Document();
+        // Decide what sort of Document to use.
+        // Files that can be scanned, are.
+        if ( $object->ClassName == 'File' ) {
+            switch( $object->getExtension() ) {
+                case 'xlsx':
+                    $doc = Zend_Search_Lucene_Document_Xlsx::loadXlsxFile(Director::baseFolder().'/'.$object->Filename, true);
+                    break;
+                case 'docx':
+                    $doc = Zend_Search_Lucene_Document_Docx::loadDocxFile(Director::baseFolder().'/'.$object->Filename, true);
+                    break;
+                case 'htm':
+                case 'html':
+                    $doc = Zend_Search_Lucene_Document_Html::loadHTMLFile(Director::baseFolder().'/'.$object->Filename, true);
+                    break;
+                case 'pptx':
+                    $doc = Zend_Search_Lucene_Document_Pptx::loadPptxFile(Director::baseFolder().'/'.$object->Filename, true);
+                    break;
+                case 'pdf':
+                    $content = PDFScanner::getText(Director::baseFolder().'/'.$object->Filename);                   
+                    $doc = new Zend_Search_Lucene_Document();
+                    $doc->addField(Zend_Search_Lucene_Field::Text('body', $content, ZendSearchLuceneSearchable::$encoding));
+                    break;
+                default:
+                    $doc = new Zend_Search_Lucene_Document();
+                    break;                    
+            }
+        } else {
+            $doc = new Zend_Search_Lucene_Document();
+        }
+
         foreach( $fields as $fieldName ) {
             $field = self::getZendField($object, $fieldName);
             if ( ! $field ) continue;
@@ -129,9 +161,7 @@ class ZendSearchLuceneWrapper {
         if ( method_exists(get_class($object), 'Link') ) {
             $doc->addField(Zend_Search_Lucene_Field::UnIndexed('Link', $object->Link()));
         }
-$fh = fopen('/home/darren/foo.txt','a');
-fwrite($fh, 'INDEXED');
-fclose($fh);
+
         $index->addDocument($doc);
         $index->commit();
     }
@@ -144,20 +174,15 @@ fclose($fh);
      *                                  extension, it is not deleted.
      */
     public static function delete($object) {
-$fh = fopen('/home/darren/foo.txt','a');
         if ( ! Object::has_extension($object->ClassName, 'ZendSearchLuceneSearchable') ) {
-fwrite($fh, 'no extension!'."\n");
             return;
         }
         $index = self::getIndex();
         foreach ($index->find('ID:'.$object->ID) as $hit) {
-fwrite($fh, 'Found index docID '.$id.' getclass='.var_export(get_class($hit),true).' docClassName='.var_export($hit->ClassName,true)."\n");
             if ( $hit->ClassName != $object->ClassName ) continue;
-fwrite($fh, 'DELETED'."\n");
             $index->delete($hit->id);
         }
         $index->commit();
-fclose($fh);
     }
 
 
