@@ -124,7 +124,7 @@ class ZendSearchLuceneWrapper {
         // Decide what sort of Document to use.
         // Files that can be scanned, are.
         if ( $object->ClassName == 'File' ) {
-            switch( $object->getExtension() ) {
+            switch( strtolower($object->getExtension()) ) {
                 case 'xlsx':
                     $doc = Zend_Search_Lucene_Document_Xlsx::loadXlsxFile(Director::baseFolder().'/'.$object->Filename, true);
                     break;
