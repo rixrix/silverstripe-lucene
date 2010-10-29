@@ -14,8 +14,6 @@ class ZendSearchLuceneContentController extends Extension {
 		'ZendSearchLuceneResults',
 	);
 	
-	private $query;
-	
 	/**
 	 * Returns the Lucene-powered search Form object.
 	 *
@@ -49,8 +47,8 @@ class ZendSearchLuceneContentController extends Extension {
 	 */
 	function ZendSearchLuceneResults($data, $form, $request) {
 		$querystring = $form->dataFieldByName('Search')->dataValue();
-		$this->query = Zend_Search_Lucene_Search_QueryParser::parse($querystring);
-		$hits = ZendSearchLuceneWrapper::find($this->query);
+		$query = Zend_Search_Lucene_Search_QueryParser::parse($querystring);
+		$hits = ZendSearchLuceneWrapper::find($query);
         $data = $this->getDataArrayFromHits($hits, $request);
 		return $this->owner->customise($data)->renderWith(array('Lucene_results', 'Page'));
 	}
