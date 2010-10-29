@@ -14,6 +14,8 @@ class ZendSearchLuceneContentController extends Extension {
 		'ZendSearchLuceneResults',
 	);
 	
+	private $query;
+	
 	/**
 	 * Returns the Lucene-powered search Form object.
 	 *
@@ -46,8 +48,9 @@ class ZendSearchLuceneContentController extends Extension {
 	 * @return  String                      The rendered form, for inclusion into the page template.
 	 */
 	function ZendSearchLuceneResults($data, $form, $request) {
-		$query = $form->dataFieldByName('Search')->dataValue();
-		$hits = ZendSearchLuceneWrapper::find($query);
+		$querystring = $form->dataFieldByName('Search')->dataValue();
+		$this->query = Zend_Search_Lucene_Search_QueryParser::parse($querystring);
+		$hits = ZendSearchLuceneWrapper::find($this->query);
         $data = $this->getDataArrayFromHits($hits, $request);
 		return $this->owner->customise($data)->renderWith(array('Lucene_results', 'Page'));
 	}
@@ -99,10 +102,11 @@ class ZendSearchLuceneContentController extends Extension {
                     // Zend uses 'body' for scanned text, & we can't change it 
                     // without altering the Zend source.
                     if ( $var == 'Content' && $hit->Content == '' && $hit->body != '' ) {
-                        $obj->Content = $hit->body;
+                        $value = $hit->body;
                     } else {
-    			        $obj->$var = $hit->$var;
+    			        $value = $hit->$var;
     			    }
+    			    $obj->$var = $value;
                 } catch (Exception $e) { }
 			}
 			$obj->score = $hit->score;

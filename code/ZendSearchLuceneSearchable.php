@@ -43,7 +43,7 @@ class ZendSearchLuceneSearchable extends DataObjectDecorator {
      * Maximum number of pages shown in pagination (ellipsis are used to indicate more pages)
      * @static
      */
-    static $maxShowPages = 8;       
+    static $maxShowPages = 8;
 
     /** 
      * The fields which can be searched for each DataObject class.
