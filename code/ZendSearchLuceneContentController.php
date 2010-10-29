@@ -95,19 +95,20 @@ class ZendSearchLuceneContentController extends Extension {
 			$obj = new DataObject();
 			foreach ( $vars as $var ) {
 			    try {
-			        $obj->$var = $hit->$var;
+                    // Copy scanned text into Content if Content is empty
+                    // Zend uses 'body' for scanned text, & we can't change it 
+                    // without altering the Zend source.
+                    if ( $var == 'Content' && $hit->Content == '' && $hit->body != '' ) {
+                        $obj->Content = $hit->body;
+                    } else {
+    			        $obj->$var = $hit->$var;
+    			    }
                 } catch (Exception $e) { }
 			}
 			$obj->score = $hit->score;
 			$obj->Number = $k + 1; // which number result it is...
 			$results->push($obj);
 		}
-		// filter by permission
-/*
-		if($results) foreach($results as $result) {
-			if(!$result->canView()) $results->remove($result);
-		}
-*/
 		
 	    $data['Results'] = $results;
 	    $data['Query']   = DBField::create('Text', $request->requestVar('Search'));
