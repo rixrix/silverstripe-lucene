@@ -132,11 +132,11 @@ Currently you cannot index relationship fields.
 
 INDEXING FILES
 
-Office 2007 files (docx, xlsx, and pptx) are scanned using Zend_Search_Lucene's 
-inbuilt scanning classes.
+When indexing 'File' DataObjects, this module will detect the file type using the file extension.  Detected types are .xlsx, .docx, .htm, .html, .pptx, and pdf.
 
-PDF files are scanned using the PDF2Text library.
+Word, Excel and Powerpoint files are scanned using Zend Lucene's inbuilt classes.  Sadly only recent versions of Office are supported.
 
+PDF files are scanned using the commandline utility pdftotext.  This is part of the poppler-utils package on Debian/Ubuntu.  If the commandline utility is not found, the PDF2Text class by Joeri Stegeman is used instead, which doesn't give as good results.
 
 
 PAGINATION
