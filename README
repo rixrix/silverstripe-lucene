@@ -24,12 +24,24 @@ Darren Inwood
 
 Requirements
 -----------------------------------------------
-SilverStripe 2.4 or newer
+SilverStripe 2.4 or newer - see note below for 2.4.4
 
 
 Documentation
 -----------------------------------------------
 http://code.google.com/p/lucene-silverstripe-plugin/
+
+
+KNOWN ISSUE WITH SILVERSTRIPE 2.4.4
+-----------------------------------------------
+
+NOTE: there is an issue with SilverStripe 2.4.4 where form actions on 
+CMSMain no longer work when added via extensions. This also affects the 
+Versioning plugin, and means that the 'Rebuild Search Index' button in 
+this module no longer works. To fix, open up 'cms/code/CMSMain.php' and 
+add 'rebuildZendSearchLuceneIndex' into the $allowed_actions array. 
+(See http://open.silverstripe.org/changeset/115313)
+(To get the Rollback function working too, add 'rollback' into this array) 
 
 
 Installation Instructions
