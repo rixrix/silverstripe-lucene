@@ -10,6 +10,13 @@
 class ZendSearchLuceneCMSDecorator extends LeftAndMainDecorator {
 
     /**
+     * Enables the extra button added via ZendSearchLuceneSiteConfig
+     */
+    public static $allowed_actions = array(
+        'rebuildZendSearchLuceneIndex'
+    );
+
+    /**
      * Blanks the search index, and rebuilds it from scratch.
      * Gets a list of all objects that have the Searchable extension, and indexes all of them.
      *
