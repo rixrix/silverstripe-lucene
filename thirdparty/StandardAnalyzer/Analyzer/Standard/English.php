@@ -18,8 +18,8 @@
  /** StandardAnalyzer_ */
  /* Depending on your circumstances, you may want to change the paths to meet your conventional / functional needs */
 
-require_once 'StandardAnalyzer/Analyzer/Standard.php';
-require_once 'StandardAnalyzer/TokenFilter/EnglishStemmer.php';
+require_once ZEND_SEARCH_LUCENE_BASE_PATH.'/thirdparty/StandardAnalyzer/Analyzer/Standard.php';
+require_once ZEND_SEARCH_LUCENE_BASE_PATH.'/thirdparty/StandardAnalyzer/TokenFilter/EnglishStemmer.php';
 
  /** Zend_Search_Lucene_Analysis_Analyzer_Standard */
 require_once 'Zend/Search/Lucene/Analysis/Analyzer.php';

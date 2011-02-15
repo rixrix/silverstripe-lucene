@@ -320,12 +320,6 @@ class Your_Controller extends Page_Controller {
 }
 
 
-Caveats
------------------------------------------------
-
-If you already have Zend_Search_Lucene in your include path, this may act up.
-
-
 TODO
 -----------------------------------------------
 

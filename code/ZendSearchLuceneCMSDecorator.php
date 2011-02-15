@@ -7,6 +7,10 @@
  * @author Darren Inwood <darren.inwood@chrometoaster.com>
  */
 
+// Not actually too sure why this works, but it seems to make autoloading use 
+// the correct files.
+require_once( 'Zend/Search/Lucene.php' );
+
 class ZendSearchLuceneCMSDecorator extends LeftAndMainDecorator {
 
     /**

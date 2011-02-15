@@ -31,24 +31,19 @@ class ZendSearchLuceneSearchable extends DataObjectDecorator {
      * Number of results per pagination page 
      * @static
      */
-    static $pageLength = 10;        
+    public static $pageLength = 10;        
 
     /**
      * Always show this many pages in pagination (can be zero)
      * @static
      */
-    static $alwaysShowPages = 3;    
+    public static $alwaysShowPages = 3;    
 
     /** 
      * Maximum number of pages shown in pagination (ellipsis are used to indicate more pages)
      * @static
      */
-    static $maxShowPages = 8;
-
-    /** 
-     * The fields which can be searched for each DataObject class.
-     */
-	protected $searchFields;
+    public static $maxShowPages = 8;
 
     /**
      * Encoding in which indexes are created and searches made.
@@ -66,16 +61,21 @@ class ZendSearchLuceneSearchable extends DataObjectDecorator {
      * Fields which are also indexed in addition to content fields.
      * @static
      */
-    private static $extraSearchFields = array('ID','ClassName','LastEdited');
+    protected static $extraSearchFields = array('ID','ClassName','LastEdited');
 
     /**
      * Default fields to index for each Searchable decorated class.
      * @static
      */
-    private static $defaultColumns = array(
+    protected static $defaultColumns = array(
 		'SiteTree' => 'Title,MenuTitle,Content,MetaTitle,MetaDescription,MetaKeywords',
 		'File' => 'Filename,Title,Content'
 	);
+
+    /** 
+     * The fields which can be searched for each DataObject class.
+     */
+	protected $searchFields;
 
 	function __construct($searchFields) {
 		if(is_array($searchFields)) $this->searchFields = implode(',', $searchFields);
@@ -106,6 +106,11 @@ class ZendSearchLuceneSearchable extends DataObjectDecorator {
 		Object::add_extension('ContentController', 'ZendSearchLuceneContentController');
 		DataObject::add_extension('SiteConfig', 'ZendSearchLuceneSiteConfig');
 		Object::add_extension('LeftAndMain', 'ZendSearchLuceneCMSDecorator');
+		// Set up default encoding and analyzer
+        Zend_Search_Lucene_Search_QueryParser::setDefaultEncoding(ZendSearchLuceneSearchable::$encoding);
+        Zend_Search_Lucene_Analysis_Analyzer::setDefault( 
+            new StandardAnalyzer_Analyzer_Standard_English() 
+        );
 	}
 
     /**
