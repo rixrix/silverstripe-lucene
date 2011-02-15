@@ -24,24 +24,12 @@ Darren Inwood
 
 Requirements
 -----------------------------------------------
-SilverStripe 2.4 or newer - see note below for 2.4.4
+SilverStripe 2.4 or newer
 
 
 Documentation
 -----------------------------------------------
 http://code.google.com/p/lucene-silverstripe-plugin/
-
-
-KNOWN ISSUE WITH SILVERSTRIPE 2.4.4
------------------------------------------------
-
-NOTE: there is an issue with SilverStripe 2.4.4 where form actions on 
-CMSMain no longer work when added via extensions. This also affects the 
-Versioning plugin, and means that the 'Rebuild Search Index' button in 
-this module no longer works. To fix, open up 'cms/code/CMSMain.php' and 
-add 'rebuildZendSearchLuceneIndex' into the $allowed_actions array. 
-(See http://open.silverstripe.org/changeset/115313)
-(To get the Rollback function working too, add 'rollback' into this array) 
 
 
 Installation Instructions
@@ -56,10 +44,10 @@ svn export http://lucene-silverstripe-plugin.googlecode.com/svn/trunk/ lucene
 This will create a directory called 'lucene' containing the plugin files.
 
 Run /dev/build to tell your SilverStripe about your new module, and your module 
-is installed!
+is installed!  (You still need to enable it - see below.)
 
 To enable pdf scanning using the pdftotext utility on Linux, ensure that the 
-command-line untility is installed.  If you are using Debian or Ubuntu, either 
+command-line utility is installed.  If you are using Debian or Ubuntu, either 
 of the poppler-utils or xpdf-utils packages will provide this utility:
 
 apt-get install poppler-utils
