@@ -12,29 +12,16 @@ class ZendSearchLuceneContentController extends Extension {
 	static $allowed_actions = array(
 		'ZendSearchLuceneForm',
 		'ZendSearchLuceneResults',
+		'results'
 	);
-	
+
 	/**
 	 * Returns the Lucene-powered search Form object.
-	 *
+     * 
 	 * @return  Form    A Form object representing the search form.
 	 */
 	function ZendSearchLuceneForm() {
-		$searchText = isset($_REQUEST['Search']) ? $_REQUEST['Search'] : '';
-		$fields = new FieldSet(
-			new TextField(
-			    'Search', 
-			    _t('ZendSearchLuceneForm.SearchButtonText', 'Search'), 
-			    $searchText
-			)
-		);
-		$actions = new FieldSet(
-			new FormAction('ZendSearchLuceneResults', 'Go')
-		);
-		$form = new Form($this->owner, 'ZendSearchLuceneForm', $fields, $actions);
-        $form->disableSecurityToken();
-        $form->setFormMethod('get');
-		return $form;
+		return Object::create('ZendSearchLuceneForm', $this->owner);
 	}
 
 	/**
@@ -52,6 +39,30 @@ class ZendSearchLuceneContentController extends Extension {
         $data = $this->getDataArrayFromHits($hits, $request);
 		return $this->owner->customise($data)->renderWith(array('Lucene_results', 'Page'));
 	}
+
+    /**
+     * Wrapper around ZendSearchLuceneResults, for when we are using $SearchForm
+     */
+    function results($data, $form, $request) {
+        return $this->ZendSearchLuceneResults($data, $form, $request);
+    }
+
+    /**
+     * Makes $SearchForm included in many stock templates return a Lucene form
+     * analogous to the one that the FulltextSearchable extension outputs...
+     */
+    function SearchForm() {
+        $form = $this->ZendSearchLuceneForm();
+        // Use the same CSS as the stock search form...
+        $form->setHTMLId('SearchForm_SearchForm');
+		$actions = $form->Actions();
+		$action = Object::create( 'FormAction', 'results', _t('SearchForm.GO', 'Go'));
+		$action->setForm($form);
+		$actions->replaceField('action_ZendSearchLuceneResults', $action);
+        return $form->renderWith(array(
+            'SearchForm', 'Page'
+        ));
+    }
 
     /**
      * Returns a data array suitable for customising a Page with, containing

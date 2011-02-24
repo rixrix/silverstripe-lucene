@@ -7,10 +7,6 @@
  * @author Darren Inwood <darren.inwood@chrometoaster.com>
  */
 
-// Not actually too sure why this works, but it seems to make autoloading use 
-// the correct files.
-require_once( 'Zend/Search/Lucene.php' );
-
 class ZendSearchLuceneCMSDecorator extends LeftAndMainDecorator {
 
     /**
@@ -27,37 +23,12 @@ class ZendSearchLuceneCMSDecorator extends LeftAndMainDecorator {
      * @return      String          The AJAX response to send to the CMS.
      */
     public function rebuildZendSearchLuceneIndex() {
-        set_time_limit(600);
-        $index = ZendSearchLuceneWrapper::getIndex(true); // Wipes current index
-        $count = 0;
-        $indexed = array();
-
-        $possibleClasses = ClassInfo::subclassesFor('DataObject');
-        $extendedClasses = array();
-        foreach( $possibleClasses as $possibleClass ) {
-            if ( Object::has_extension($possibleClass, 'ZendSearchLuceneSearchable') ) {
-                $extendedClasses[] = $possibleClass;
-            }
-        }
-
-        foreach( $extendedClasses as $className ) {
-            $objects = DataObject::get($className);
-            if ( $objects === null ) continue;
-            foreach( $objects as $object ) {
-                // Only re-index if we haven't already indexed this DataObject
-                if ( ! array_key_exists($object->ClassName, $indexed) ) $indexed[$object->ClassName] = array();
-                if ( ! array_key_exists($object->ID, $indexed[$object->ClassName]) ) {
-                    ZendSearchLuceneWrapper::index($object);
-                    $indexed[$object->ClassName][$object->ID] = true;
-                    $count++;
-                }
-            }
-        }
-
+        $count = ZendSearchLuceneWrapper::rebuildIndex();
         FormResponse::status_message( 
             sprintf(
-                _t('ZendSearchLuceneCMSDecorator.SuccessMessage', 'The search engine has been rebuilt. %s entries were indexed.'),
-                (int)$count
+                _t('ZendSearchLuceneCMSDecorator.SuccessMessage', 'The search engine index has been rebuilt. %s entries were indexed in %s seconds.'),
+                (int)$count,
+                ZendSearchLuceneWrapper::getLastReindexTime()
             ),
             'good' 
         );

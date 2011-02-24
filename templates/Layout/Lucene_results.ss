@@ -1,16 +1,18 @@
 
+            <div class="lucene-results">
                 <p>Your search for <strong>&quot;$Query&quot;</strong> found $TotalResults result<% if TotalResults != 1 %>s<% end_if %>.</p>
 
 <% if Results %>
                 <p>showing page $ThisPage of $TotalPages</p>
 
                 <!-- START search results -->
-                <ul>
+
+                <ul id="SearchResults">
                     <% control Results %>
                     <li>
-                        <a href="$Link">$Title</a>
-                        <p>$Content.LimitWordCountXML</p>
-                        <a href="$Link" title="$Link">$Link</a>
+                        <h3><a href="$Link" class="searchResultHeader">$Title</a></h3>
+                        $Content.SearchTextHighlight
+                        <a href="$Link" title="Read more about &quot;{$Title}&quot;" class="readMoreLink">Read more about &quot;{$Title}&quot;</a>
                     </li>
                     <% end_control %>
                 </ul>
@@ -45,4 +47,4 @@
 <% else %>
                 <p>No results.</p>
 <% end_if %>
-
+            </div>

@@ -5,6 +5,9 @@ Lucene plugin for SilverStripe 2.4
 This plugin for the SilverStripe framework allows you to harness the power of 
 the Lucene search engine on your site.
 
+Using a variety of tools, you can also search PDF, Word, Excel, Powerpoint and 
+plain text files.
+
 It is easy to set up and use.
 
 This plugin uses Zend_Search_Lucene from Zend, StandardAnalyzer by Kenny 
@@ -43,14 +46,37 @@ svn export http://lucene-silverstripe-plugin.googlecode.com/svn/trunk/ lucene
 
 This will create a directory called 'lucene' containing the plugin files.
 
-Run /dev/build to tell your SilverStripe about your new module, and your module 
-is installed!  (You still need to enable it - see below.)
+Run /dev/build?flush=1 to tell your SilverStripe about your new module, and your 
+module is installed!  (You still need to enable it - see below.)
 
 To enable pdf scanning using the pdftotext utility on Linux, ensure that the 
 command-line utility is installed.  If you are using Debian or Ubuntu, either 
 of the poppler-utils or xpdf-utils packages will provide this utility:
 
 apt-get install poppler-utils
+
+If you do not have the pdftotext utility installed, Lucene will use the 
+PHP-based PDF2Text class by Joeri Stegeman instead.  However, this class is 
+limited in it's ability compared to pdftotext.
+
+Word, Excel and Powerpoint scanning all requires the 'zip' PHP module to be 
+installed.  If you don't have it, your documents won't be scanned.
+
+
+Quick Start
+-----------------------------------------------
+
+If you just want to get up and running as quickly as possible with your Lucene 
+search engine, install it as per above, and then add the following line to your 
+project's _config.php file:
+
+ZendSearchLuceneSearchable::enable();
+
+If you're using the Black Candy theme, or another theme that supports the 
+standard SilverStripe Fulltext Search, your search will now run using Lucene, 
+indexing all Pages and indexable Files (PDF, Word, Excel, Powerpoint and HTML).
+
+To get the most out of your new search engine, continue reading.
 
 
 Configuration Instructions
@@ -127,16 +153,50 @@ LastEdited and Created fields will be Unindexed.
 ID and ClassName fields will be indexed as Keyword types.
 All other fields will be indexed as Text.
 
-Currently you cannot index relationship fields.
+
+INDEXING RELATIONS
+
+You can index has_one, has_many and many_many relations, using dot notation to 
+indicate the fields to read on the related object.
+
+If we have a has_one relation between Page and our custom class Foo, and Foo 
+has a text field called Bar, we can index it by adding Foo.Bar into the field
+list when we add the extension to the Page type:
+
+Object::add_extension(
+    'Page',
+    "ZendSearchLuceneSearchable('"
+    ."Title,MenuTitle,MetaTitle,MetaDescription,MetaKeywords,"
+    ."Content,Foo.Bar')"
+);
 
 
 INDEXING FILES
 
-When indexing 'File' DataObjects, this module will detect the file type using the file extension.  Detected types are .xlsx, .docx, .htm, .html, .pptx, and pdf.
+When indexing 'File' DataObjects, this module will detect the file type using 
+the file extension.  Detected types are .txt, .xlsx, .docx, .htm, .html, .pptx, 
+and pdf.
 
-Word, Excel and Powerpoint files are scanned using Zend Lucene's inbuilt classes.  Sadly only recent versions of Office are supported.
+Word, Excel and Powerpoint files are scanned using Zend Lucene's inbuilt 
+classes.  Sadly only recent versions of Office are supported.
 
-PDF files are scanned using the commandline utility pdftotext.  This is part of the poppler-utils package on Debian/Ubuntu.  If the commandline utility is not found, the PDF2Text class by Joeri Stegeman is used instead, which doesn't give as good results.
+PDF files are scanned using the commandline utility pdftotext.  This is part of 
+the poppler-utils package on Debian/Ubuntu.  If the commandline utility is not 
+found, the PDF2Text class by Joeri Stegeman is used instead, which doesn't give 
+as good results.
+
+
+REBUILDING THE SEARCH INDEX
+
+The search index is rebuilt on every /dev/build.  In case you want to disable
+this, for example if your site is quite large and rebuilding the search index 
+takes a while, you can add the following to your _config.php:
+
+ZendSearchLuceneSearchable::$reindexOnDevBuild = false;
+
+To manually rebuild the search index, go to the SiteConfig page (at the very 
+top of the LHS site tree in the CMS, with the world icon) and there will be a
+'Rebuild Search Index' button at the bottom of the page.
 
 
 PAGINATION
@@ -209,6 +269,10 @@ $ZendSearchLuceneForm
 This will post to the action ZendSearchLuceneResults, which will display the 
 Search Results page.
 
+This module will also take over the $SearchForm token - this is for convenience, 
+to get users up and running quickly using the out-of-the-box themes.  If you're 
+planning on customising the form markup, use $ZendSearchLuceneForm instead.
+
 
 CUSTOM SEARCH FORM
 
@@ -228,6 +292,11 @@ class Your_Controller extends Page_Controller {
    }
 
 }
+
+If you are using $ZendSearchLuceneForm in your templates, you can create a 
+custom template for the search form called ZendSearchLuceneForm.ss - it can go 
+in either your root template folder, or in your Includes/ folder.  Copying 
+sapphire/templates/SearchForm.ss is a good starting point.
 
 
 CUSTOM SEARCH RESULTS PAGE
@@ -323,10 +392,8 @@ class Your_Controller extends Page_Controller {
 TODO
 -----------------------------------------------
 
-* Figure out some way to index relations
-* Implement an n-gram analyzer and SpellChecker
-* Abstract pagination stuff into a DataObjectSet extension
 * Allow the use of multiple indexes per project
+
 
 Links
 -----------------------------------------------

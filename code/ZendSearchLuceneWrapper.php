@@ -15,6 +15,8 @@ class ZendSearchLuceneWrapper {
      */
     public static $indexName = 'Silverstripe';
 
+    private static $lastReindexTime = false;
+
     /** 
      * Stores a handle to the search index so we don't have to keep recreating it. 
      * @static
@@ -120,39 +122,96 @@ class ZendSearchLuceneWrapper {
 
         $fields = explode(',', $object->getSearchFields());
         $fields = array_merge($object->getExtraSearchFields(), $fields);
-
-        // Decide what sort of Document to use.
-        // Files that can be scanned, are.
+        $doc = null;
+        // Decide what sort of Document to use. Files that can be scanned, are.
         if ( $object->ClassName == 'File' ) {
             switch( strtolower($object->getExtension()) ) {
                 case 'xlsx':
-                    $doc = Zend_Search_Lucene_Document_Xlsx::loadXlsxFile(Director::baseFolder().'/'.$object->Filename, true);
+                    if ( extension_loaded('zip') ) { 
+                        $doc = Zend_Search_Lucene_Document_Xlsx::loadXlsxFile(
+                            Director::baseFolder().'/'.$object->Filename, 
+                            true
+                        );
+                    }
                     break;
                 case 'docx':
-                    $doc = Zend_Search_Lucene_Document_Docx::loadDocxFile(Director::baseFolder().'/'.$object->Filename, true);
+                    if ( extension_loaded('zip') ) {
+                        $doc = Zend_Search_Lucene_Document_Docx::loadDocxFile(
+                            Director::baseFolder().'/'.$object->Filename, 
+                            true
+                        );
+                    }
                     break;
                 case 'htm':
                 case 'html':
                     $doc = Zend_Search_Lucene_Document_Html::loadHTMLFile(Director::baseFolder().'/'.$object->Filename, true);
                     break;
                 case 'pptx':
-                    $doc = Zend_Search_Lucene_Document_Pptx::loadPptxFile(Director::baseFolder().'/'.$object->Filename, true);
+                    if ( extension_loaded('zip') ) {
+                        $doc = Zend_Search_Lucene_Document_Pptx::loadPptxFile(
+                            Director::baseFolder().'/'.$object->Filename, 
+                            true
+                        );
+                    }
                     break;
                 case 'pdf':
                     $content = PDFScanner::getText(Director::baseFolder().'/'.$object->Filename);                   
                     $doc = new Zend_Search_Lucene_Document();
                     $doc->addField(Zend_Search_Lucene_Field::Text('body', $content, ZendSearchLuceneSearchable::$encoding));
                     break;
-                default:
+                case 'txt':
+                    $content = file_get_contents(Director::baseFolder().'/'.$object->Filename);
                     $doc = new Zend_Search_Lucene_Document();
-                    break;                    
+                    $doc->addField(Zend_Search_Lucene_Field::Text('body', $content, ZendSearchLuceneSearchable::$encoding));
+                    break;
             }
-        } else {
+        }
+
+        // Default - regular document type
+        if ( $doc === null ) {
             $doc = new Zend_Search_Lucene_Document();
         }
 
         foreach( $fields as $fieldName ) {
-            $field = self::getZendField($object, $fieldName);
+            if ( strpos($fieldName, '.') !== false ) {
+                // Dot notation
+                list($fieldName, $relationFieldName) = explode('.', $fieldName, 2);
+                if ( in_array($fieldName, array_keys($object->has_one())) ) {
+                    // has_one
+                    $field = self::getZendField($object->getComponent($fieldName), $relationFieldName);     
+                } else 
+                if ( in_array($fieldName, array_keys($object->has_many())) ) {
+                    // has_many - construct an aggregate object to extract text from
+                    $tmp = '';
+                    $components = $object->getComponents($fieldName);
+                    foreach( $components as $component ) {
+                        $tmp .= $component->$relationFieldName;
+                    }
+                    $tmp_obj = Object::create('DataObject');
+                    $tmp_obj->$relationFieldName = $tmp;
+                    $field = self::getZendField($tmp_obj, $fieldName.'.'.$relationFieldName);
+                    unset($components);
+                    unset($tmp_obj);
+                    unset($tmp);
+                } else 
+                if ( in_array($fieldName, array_keys($object->many_many())) ) {
+                    // many_many - construct an aggregate object to extract text from
+                    $tmp = '';
+                    $components = $object->$fieldName();
+                    foreach( $components as $component ) {
+                        $tmp .= $component->$relationFieldName;
+                    }
+                    $tmp_obj = Object::create('DataObject');
+                    $tmp_obj->$relationFieldName = $tmp;
+                    $field = self::getZendField($tmp_obj, $fieldName.'.'.$relationFieldName);
+                    unset($components);
+                    unset($tmp_obj);
+                    unset($tmp);
+                }
+            } else {
+                // Normal database field
+                $field = self::getZendField($object, $fieldName);
+            }
             if ( ! $field ) continue;
             $doc->addField($field);
         }
@@ -178,7 +237,7 @@ class ZendSearchLuceneWrapper {
             return;
         }
         $index = self::getIndex();
-        foreach ($index->find('ID:'.$object->ID) as $hit) {
+        foreach ($index->find('ObjectID:'.$object->ID) as $hit) {
             if ( $hit->ClassName != $object->ClassName ) continue;
             $index->delete($hit->id);
         }
@@ -210,24 +269,17 @@ class ZendSearchLuceneWrapper {
      * @return  Zend_Search_Lucene_Field
      */
     private static function getZendField($object, $fieldName) {
-        $extraSearchFields = $object->getExtraSearchFields();
-        $dbMap = $object->db();
         $encoding = ZendSearchLuceneSearchable::$encoding;
-
-        if ( ! in_array($fieldName, $extraSearchFields) && ! array_key_exists($fieldName, $dbMap) ) {
-            return false;
-        }
-
         $unstoredFields = array(
             'MenuTitle', 'MetaTitle', 'MetaDescription', 'MetaKeywords'
         );
-        if ( in_array($fieldName, $unstoredFields) ) {
-            return Zend_Search_Lucene_Field::UnStored($fieldName, $object->$fieldName, $encoding);
-        }
-
         $unindexedFields = array(
             'LastEdited', 'Created'
         );
+
+        if ( in_array($fieldName, $unstoredFields) ) {
+            return Zend_Search_Lucene_Field::UnStored($fieldName, $object->$fieldName, $encoding);
+        }
         if ( in_array($fieldName, $unindexedFields) ) {
             return Zend_Search_Lucene_Field::UnIndexed($fieldName, $object->$fieldName, $encoding);
         }
@@ -236,7 +288,9 @@ class ZendSearchLuceneWrapper {
             'ID', 'ClassName'
         );
         if ( in_array($fieldName, $keywordFields) ) {
-            return Zend_Search_Lucene_Field::Keyword($fieldName, $object->$fieldName, $encoding);
+            $keywordFieldName = $fieldName;
+            if ( $keywordFieldName == 'ID' ) $keywordFieldName = 'ObjectID'; // Don't use 'ID' as it's used by Zend Lucene
+            return Zend_Search_Lucene_Field::Keyword($keywordFieldName, $object->$fieldName, $encoding);
         }
 
         // Default - index and store
@@ -245,6 +299,56 @@ class ZendSearchLuceneWrapper {
 
     public static function addCreateIndexCallback($callback) {
         self::$createIndexCallbacks[] = $callback;
+    }
+
+    /**
+     * Rebuilds the search index.
+     * @return  Integer     Returns the number of documents that were indexed.
+     */
+    public static function rebuildIndex() {
+        set_time_limit(600);
+        $start_time = microtime();
+        $index = self::getIndex(true); // Wipes current index
+        $count = 0;
+        $indexed = array();
+
+        $possibleClasses = ClassInfo::subclassesFor('DataObject');
+        $extendedClasses = array();
+        foreach( $possibleClasses as $possibleClass ) {
+            if ( Object::has_extension($possibleClass, 'ZendSearchLuceneSearchable') ) {
+                $extendedClasses[] = $possibleClass;
+            }
+        }
+
+        foreach( $extendedClasses as $className ) {
+            $objects = DataObject::get($className);
+            if ( $objects === null ) continue;
+            foreach( $objects as $object ) {
+                // For some reason, File objects don't get removed from the system 
+                // when deleted.  They have ParentID set to 0 instead.
+                if ( ($className == 'File' || Classinfo::is_subclass_of($className, 'File')) && $object->ParentID == 0 ) {
+                    continue;
+                }
+                // Only re-index if we haven't already indexed this DataObject
+                if ( ! array_key_exists($object->ClassName, $indexed) ) $indexed[$object->ClassName] = array();
+                if ( ! array_key_exists($object->ID, $indexed[$object->ClassName]) ) {
+                    self::index($object);
+                    $indexed[$object->ClassName][$object->ID] = true;
+                    $count++;
+                }
+            }
+        }
+        $end_time = microtime();
+        self::$lastReindexTime = $end_time = $start_time;
+        return $count;
+    }
+
+    /**
+     * @return  Integer    If the index has been rebuilt, returns how many seconds this took.
+     * Otherwise returns false.
+     */    
+    public static function getLastReindexTime() {
+        return round( (self::$lastReindexTime/1000), 3);
     }
 
 }

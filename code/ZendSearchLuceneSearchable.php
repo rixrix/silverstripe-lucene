@@ -56,6 +56,13 @@ class ZendSearchLuceneSearchable extends DataObjectDecorator {
      * @static
      */
     public static $cacheDirectory = TEMP_FOLDER;
+
+    /**
+     * Boolean indicating whether we should rebuild the index whenever a 
+     * dev/build is run.
+     * @static
+     */
+    public static $reindexOnDevBuild = true;
     
     /**
      * Fields which are also indexed in addition to content fields.
@@ -106,6 +113,7 @@ class ZendSearchLuceneSearchable extends DataObjectDecorator {
 		Object::add_extension('ContentController', 'ZendSearchLuceneContentController');
 		DataObject::add_extension('SiteConfig', 'ZendSearchLuceneSiteConfig');
 		Object::add_extension('LeftAndMain', 'ZendSearchLuceneCMSDecorator');
+		Object::add_extension('StringField', 'ZendSearchLuceneTextHighlightDecorator');
 		// Set up default encoding and analyzer
         Zend_Search_Lucene_Search_QueryParser::setDefaultEncoding(ZendSearchLuceneSearchable::$encoding);
         Zend_Search_Lucene_Analysis_Analyzer::setDefault( 
@@ -169,6 +177,21 @@ class ZendSearchLuceneSearchable extends DataObjectDecorator {
      */
     public function getExtraSearchFields() {
         return self::$extraSearchFields;
+    }
+
+    /**
+     * Rebuilds the search index whenever a dev/build is run.
+     *
+     * This can be turned off by adding the following to your _config.php:
+     *
+     * ZendSearchLuceneSearchable::$reindexOnDevBuild = false;
+     */
+    public function requireDefaultRecords() {
+        if ( ! self::$reindexOnDevBuild ) return;
+        $count = ZendSearchLuceneWrapper::rebuildIndex();
+        $time = ZendSearchLuceneWrapper::getLastReindexTime();
+        self::$reindexOnDevBuild = false;
+        echo '<li><em>The search engine index has been rebuilt. '.$count.' entries were indexed in '.$time.' seconds.</em></li>';
     }
 
 }
