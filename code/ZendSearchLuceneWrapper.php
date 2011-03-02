@@ -111,7 +111,8 @@ class ZendSearchLuceneWrapper {
         if ( ! Object::has_extension($object->ClassName, 'ZendSearchLuceneSearchable') ) {
             return;
         }
-        if ( $object->hasField('ShowInSearch') && $object->ShowInSearch != 1 ) {
+        if ( $object->hasField('ShowInSearch') and !$object->ShowInSearch ) {
+            self::delete($object);
             return;
         }
 
