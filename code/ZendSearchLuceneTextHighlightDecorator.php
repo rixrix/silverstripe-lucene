@@ -5,7 +5,7 @@ class ZendSearchLuceneTextHighlightDecorator extends Extension {
     /**
      * Returns a part of the field's text with a word or words highlighted.
      */
-    public function SearchTextHighlight() {
+    public function SearchTextHighlight($numWords = 25) {
         $words = explode(' ',$_REQUEST['Search']);
         $text = strip_tags($this->owner->value);
         $orig = $text;
@@ -25,7 +25,7 @@ class ZendSearchLuceneTextHighlightDecorator extends Extension {
             array_slice(
                 explode(' ', $text), 
                 max(0, $first - 2),
-                25
+                $numWords
             )
         );
         if ( substr($orig,-10) != substr($text,-10) && strlen($text) < strlen($orig) ) $text .= '...';

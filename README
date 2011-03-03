@@ -132,6 +132,11 @@ Object::add_extension(
     ."Summary,Intro,Content')"
 );
 
+You can also index custom functions that return strings.  If your indexed object
+has a method called 'getFoo()' that returns a string representing some special 
+state you want to index, adding 'getFoo' into the field list will index this
+state.
+
 There are four types of indexing used in Lucene:
 
 1. Keyword - Data that is searchable and stored in the index, but not broken up 
@@ -331,6 +336,16 @@ $NextUrl - URL to the next page of results
   $Link  (URL to this page of search results)
   $Current   (Boolean indicating whether this is the current page)
 <% end_control %>  
+
+A useful extra function is the SearchTextHighlight string modifier.  If you use 
+eg. $Content.SearchTextHighlight in your template, this will output an HTML 
+paragraph containing 25 words surrounding your search terms, with the search 
+terms highlighted with <strong> tags.
+
+This modifier takes one optional argument, the number of words to display.  So 
+to display a 50 word summary you would use:
+
+$Content.SearchTextHighlight(50) 
 
 
 CUSTOMISE SEARCH FUNCTION

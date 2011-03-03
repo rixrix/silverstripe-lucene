@@ -11,7 +11,7 @@
                     <% control Results %>
                     <li>
                         <h3><a href="$Link" class="searchResultHeader">$Title</a></h3>
-                        $Content.SearchTextHighlight
+                        $Content.SearchTextHighlight(25)
                         <a href="$Link" title="Read more about &quot;{$Title}&quot;" class="readMoreLink">Read more about &quot;{$Title}&quot;</a>
                     </li>
                     <% end_control %>

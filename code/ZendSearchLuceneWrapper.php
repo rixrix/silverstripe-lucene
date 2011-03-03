@@ -210,7 +210,7 @@ class ZendSearchLuceneWrapper {
                     unset($tmp);
                 }
             } else {
-                // Normal database field
+                // Normal database field or function call
                 $field = self::getZendField($object, $fieldName);
             }
             if ( ! $field ) continue;
@@ -278,11 +278,17 @@ class ZendSearchLuceneWrapper {
             'LastEdited', 'Created'
         );
 
+        if ( $object->hasMethod($fieldName) ) {
+            $value = $object->$fieldName();
+        } else {
+            $value = $object->$fieldName;
+        }
+
         if ( in_array($fieldName, $unstoredFields) ) {
-            return Zend_Search_Lucene_Field::UnStored($fieldName, $object->$fieldName, $encoding);
+            return Zend_Search_Lucene_Field::UnStored($fieldName, $value, $encoding);
         }
         if ( in_array($fieldName, $unindexedFields) ) {
-            return Zend_Search_Lucene_Field::UnIndexed($fieldName, $object->$fieldName, $encoding);
+            return Zend_Search_Lucene_Field::UnIndexed($fieldName, $value, $encoding);
         }
 
         $keywordFields = array(
@@ -291,11 +297,11 @@ class ZendSearchLuceneWrapper {
         if ( in_array($fieldName, $keywordFields) ) {
             $keywordFieldName = $fieldName;
             if ( $keywordFieldName == 'ID' ) $keywordFieldName = 'ObjectID'; // Don't use 'ID' as it's used by Zend Lucene
-            return Zend_Search_Lucene_Field::Keyword($keywordFieldName, $object->$fieldName, $encoding);
+            return Zend_Search_Lucene_Field::Keyword($keywordFieldName, $value, $encoding);
         }
 
         // Default - index and store
-        return Zend_Search_Lucene_Field::Text($fieldName, $object->$fieldName, $encoding);
+        return Zend_Search_Lucene_Field::Text($fieldName, $value, $encoding);
     }
 
     public static function addCreateIndexCallback($callback) {
