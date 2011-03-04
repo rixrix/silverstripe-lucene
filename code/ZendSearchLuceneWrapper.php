@@ -125,8 +125,12 @@ class ZendSearchLuceneWrapper {
         $fields = array_merge($object->getExtraSearchFields(), $fields);
         $doc = null;
         // Decide what sort of Document to use. Files that can be scanned, are.
-        if ( $object->ClassName == 'File' ) {
+        if ( $object->ClassName == 'File' || ClassInfo::is_subclass_of($object->ClassName, 'File') ) {
+            if ( $object->ClassName == 'Folder' || ClassInfo::is_subclass_of($object->ClassName, 'Folder') ) {
+                return;
+            }
             switch( strtolower($object->getExtension()) ) {
+                // Newer versions of Word/Excel/Powerpoint use Zend text extraction 
                 case 'xlsx':
                     if ( extension_loaded('zip') ) { 
                         $doc = Zend_Search_Lucene_Document_Xlsx::loadXlsxFile(
@@ -143,10 +147,6 @@ class ZendSearchLuceneWrapper {
                         );
                     }
                     break;
-                case 'htm':
-                case 'html':
-                    $doc = Zend_Search_Lucene_Document_Html::loadHTMLFile(Director::baseFolder().'/'.$object->Filename, true);
-                    break;
                 case 'pptx':
                     if ( extension_loaded('zip') ) {
                         $doc = Zend_Search_Lucene_Document_Pptx::loadPptxFile(
@@ -155,23 +155,53 @@ class ZendSearchLuceneWrapper {
                         );
                     }
                     break;
+                // Older versions of Word/Excel/Powerpoint use the 'catdoc' commandline utilities if installed.
+                case 'doc':
+                    $catdoc = trim(shell_exec('which catdoc'));
+                    if ( $catdoc ) {
+                        $content = shell_exec($catdoc.' -a '.escapeshellarg(Director::baseFolder().'/'.$object->Filename));
+                        $doc = new Zend_Search_Lucene_Document();
+                        $doc->addField(Zend_Search_Lucene_Field::Text('body', $content, ZendSearchLuceneSearchable::$encoding));
+                    }
+                    break;
+                case 'xls':
+                    $xls2csv = trim(shell_exec('which xls2csv'));
+                    if ( $xls2csv ) {
+                        $content = shell_exec($xls2csv.' -q0 '.escapeshellarg(Director::baseFolder().'/'.$object->Filename));
+                        $doc = new Zend_Search_Lucene_Document();
+                        $doc->addField(Zend_Search_Lucene_Field::Text('body', $content, ZendSearchLuceneSearchable::$encoding));
+                    }
+                    break;
+                case 'ppt':
+                    $catppt = trim(shell_exec('which catppt'));
+                    if ( $catppt ) {
+                        $content = shell_exec($catppt.' '.escapeshellarg(Director::baseFolder().'/'.$object->Filename));
+                        $doc = new Zend_Search_Lucene_Document();
+                        $doc->addField(Zend_Search_Lucene_Field::Text('body', $content, ZendSearchLuceneSearchable::$encoding));
+                    }
+                    break;
+                // HTML files use Zend HTML scanner
+                case 'htm':
+                case 'html':
+                    $doc = Zend_Search_Lucene_Document_Html::loadHTMLFile(Director::baseFolder().'/'.$object->Filename, true);
+                    break;
+                // PDF files use either pdf2text if it's installed, or a PHP class
                 case 'pdf':
                     $content = PDFScanner::getText(Director::baseFolder().'/'.$object->Filename);                   
                     $doc = new Zend_Search_Lucene_Document();
                     $doc->addField(Zend_Search_Lucene_Field::Text('body', $content, ZendSearchLuceneSearchable::$encoding));
                     break;
+                // Text files are easy
                 case 'txt':
                     $content = file_get_contents(Director::baseFolder().'/'.$object->Filename);
                     $doc = new Zend_Search_Lucene_Document();
                     $doc->addField(Zend_Search_Lucene_Field::Text('body', $content, ZendSearchLuceneSearchable::$encoding));
                     break;
             }
-        }
-
-        // Default - regular document type
-        if ( $doc === null ) {
+        } else {
             $doc = new Zend_Search_Lucene_Document();
         }
+        if ( $doc === null ) return;
 
         foreach( $fields as $fieldName ) {
             if ( strpos($fieldName, '.') !== false ) {
@@ -314,7 +344,7 @@ class ZendSearchLuceneWrapper {
      */
     public static function rebuildIndex() {
         set_time_limit(600);
-        $start_time = microtime();
+        $start_time = microtime(true);
         $index = self::getIndex(true); // Wipes current index
         $count = 0;
         $indexed = array();
@@ -331,11 +361,6 @@ class ZendSearchLuceneWrapper {
             $objects = DataObject::get($className);
             if ( $objects === null ) continue;
             foreach( $objects as $object ) {
-                // For some reason, File objects don't get removed from the system 
-                // when deleted.  They have ParentID set to 0 instead.
-                if ( ($className == 'File' || Classinfo::is_subclass_of($className, 'File')) && $object->ParentID == 0 ) {
-                    continue;
-                }
                 // Only re-index if we haven't already indexed this DataObject
                 if ( ! array_key_exists($object->ClassName, $indexed) ) $indexed[$object->ClassName] = array();
                 if ( ! array_key_exists($object->ID, $indexed[$object->ClassName]) ) {
@@ -345,8 +370,8 @@ class ZendSearchLuceneWrapper {
                 }
             }
         }
-        $end_time = microtime();
-        self::$lastReindexTime = $end_time = $start_time;
+        $end_time = microtime(true);
+        self::$lastReindexTime = $end_time - $start_time;
         return $count;
     }
 
@@ -355,7 +380,7 @@ class ZendSearchLuceneWrapper {
      * Otherwise returns false.
      */    
     public static function getLastReindexTime() {
-        return round( (self::$lastReindexTime/1000), 3);
+        return round(self::$lastReindexTime, 1);
     }
 
 }
