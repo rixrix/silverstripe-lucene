@@ -28,11 +28,17 @@ Darren Inwood
 Requirements
 -----------------------------------------------
 SilverStripe 2.4 or newer
+'Queued Jobs' module
+
+This module is currently only tested on LAMP - Windows and Mac OS X should work,
+but are untested.
 
 
 Documentation
 -----------------------------------------------
 http://code.google.com/p/lucene-silverstripe-plugin/
+
+There is also phpdoc generated documentation in the docs directory.
 
 
 Installation Instructions
@@ -46,8 +52,21 @@ svn export http://lucene-silverstripe-plugin.googlecode.com/svn/trunk/ lucene
 
 This will create a directory called 'lucene' containing the plugin files.
 
+You will need to have the 'Queued Jobs' module installed in order to use Lucene:
+
+http://www.silverstripe.org/queued-jobs-module/
+  
+To get queued jobs to run, you also need to add $_FILE_TO_URL_MAPPING to your
+_ss_environment.php file as described in the SilverStripe docs:
+
+http://doc.silverstripe.org/sapphire/en/topics/commandline
+
 Run /dev/build?flush=1 to tell your SilverStripe about your new module, and your 
-module is installed!  (You still need to enable it - see below.)
+new search engine is installed!  (You still need to enable it - see below.)
+
+
+Third-Party Utility Installation
+--------------------------------
 
 To enable pdf scanning using the pdftotext utility on Linux, ensure that the 
 command-line utility is installed.  If you are using Debian or Ubuntu, either 
@@ -55,12 +74,25 @@ of the poppler-utils or xpdf-utils packages will provide this utility:
 
 apt-get install poppler-utils
 
+If you are on another Linux, Mac OS X, or Windows, the Xpdf program includes 
+pdftotext:
+
+http://www.foolabs.com/xpdf/
+
 If you do not have the pdftotext utility installed, Lucene will use the 
 PHP-based PDF2Text class by Joeri Stegeman instead.  However, this class is 
 limited in it's ability compared to pdftotext.
 
-Word, Excel and Powerpoint scanning all requires the 'zip' PHP module to be 
-installed.  If you don't have it, your documents won't be scanned.
+Word, Excel and Powerpoint scanning all require the 'zip' PHP module to be 
+installed.  If you don't have it, newer docx, xlsx and pptx documents won't be 
+scanned.
+
+To get scanning of older doc, xls and ppt documents working, you need to install
+the catdoc command-line utility.  There are Windows and Mac OS X ports also.
+
+http://wagner.pp.ru/~vitus/software/catdoc/
+http://blog.brush.co.nz/2009/09/catdoc-windows/
+http://catdoc.darwinports.com/
 
 
 Quick Start
@@ -99,6 +131,8 @@ will be indexed whenever an object of this class is written to the database:
 After enabling the search engine, you will need to build the index for the first 
 time.  There is a new button marked 'Rebuild search index' on the SiteConfig 
 page, which is the page in the LHS column at the top, with the name of the site.
+This will add a new job to the 'Jobs' list - this will give you a readout of how
+far through reindexing your site is.
 
 If you just want to get Lucene up and running as quickly as possible, you can 
 skip down to the 'Usage Overview' section below - that's all the configuration 
@@ -175,20 +209,126 @@ Object::add_extension(
     ."Content,Foo.Bar')"
 );
 
+You can nest relations several layers deep if necessary, eg. 
+Foo.Bar.Baz.Buz - remember that the names used are the names of the relation 
+fields, NOT the names of the classes being indexed.
+
 
 INDEXING FILES
 
 When indexing 'File' DataObjects, this module will detect the file type using 
-the file extension.  Detected types are .txt, .xlsx, .docx, .htm, .html, .pptx, 
-and pdf.
+the file extension.  Detected types are .txt, .xls, .doc, .ppt, .xlsx, .docx, 
+.htm, .html, .pptx, and .pdf.
 
-Word, Excel and Powerpoint files are scanned using Zend Lucene's inbuilt 
-classes.  Sadly only recent versions of Office are supported.
+See the 'Installation' section above for details on getting file scanning 
+working for various file types.
 
-PDF files are scanned using the commandline utility pdftotext.  This is part of 
-the poppler-utils package on Debian/Ubuntu.  If the commandline utility is not 
-found, the PDF2Text class by Joeri Stegeman is used instead, which doesn't give 
-as good results.
+
+ADVANCED FIELD-LEVEL INDEXING OPTIONS
+
+You can get more fine-grained control over how your classes are indexed by 
+adding the ZendSearchLuceneSearchable extension with a JSON-encoded object as 
+the argument.
+
+Your object should be arranged as key-value pairs, the key being the name of the
+property, method or relation you wish to index, and the value being another 
+object containing key-value pairs indicating the options for that field.
+
+Object::add_extension(
+    'Page',
+    "ZendSearchLuceneSearchable('
+        {
+            "Title" : true,
+            "CreatedDate" : {
+                name : "Title",
+                type : "text",
+                content_filter : "strtotime"
+            },
+            "Intro" : true,
+            "Content" : {
+                name : "Content",
+                type : "unstored"
+            },
+            "Foo.Bar" : {
+                name : "Baz"
+            },
+            "Images" : {
+                content_filter : ["HelperClass","countImages"]
+            }
+        }    
+    ')"
+);
+
+Any omitted config options will use the defaults.  Available config options for
+each field are:
+
+ * name
+   The name to store this as in the document.  Default is the same as
+   the field name.  The field name of 'ID' is a special case - this should always 
+   use a name of 'ObjectID', as this is used internally.
+
+ * type
+   The type of indexing to use.  Default is "text", legal options are "text", 
+   "keyword", "unstored" and "unindexed".
+
+ * content_filter
+   a callback that should be used to transform the field value
+   prior to being indexed.  The callback will be called with one argument, 
+   the field value as a string, and should return the transformed field value
+   also as a string.  Could be useful for eg. turning date strings into unix 
+   timestamps prior to indexing.  A value of false will indicate that there
+   should be no content filtering, which is the default.
+
+
+ADVANCED CLASS-LEVEL INDEXING OPTIONS
+
+You can also provide a second JSON-encoded argument when initialising a class 
+using Object::add_extension.  This should contain key-value pairs indicating
+your class-level configuration.
+
+Object::add_extension(
+    'Foo',
+    "ZendSearchLuceneSearchable('Foo,Far,Faz','
+        {
+            "index_filter" : "\"ID\" IN ( SELECT \"ID\" FROM \"Foo\" LEFT JOIN \"Other\" ON \"Foo\".\"ID\" = \"Other\".\"FooID\" WHERE \"Other\".\"FooID\" IS NOT NULL )"
+        }
+    ')"
+);
+
+Currently there is only one configuration option:
+
+ * index_filter
+   a string to be used as the second argument to DataObject::get() when assembling
+   the list of items of this class to index.  The default is an empty string, 
+   which will get all items of that class.
+
+Note that the config can get a bit messy with all the nested escaped quotes.  
+You may prefer to create PHP objects, json encode them and insert them that way:
+
+$fields = array(
+    'Foo' => array(
+        'name' => 'Foo',
+    ),
+    'Bar' => array(
+        'name' => 'Bar',
+        'type' => 'unstored',
+        'content_filter' => array('HelperClass','filterFunction')
+    )
+);
+$class = array(
+    'index_filter' => '
+    "ID" IN ( 
+        SELECT "ID" 
+        FROM "Foo" 
+            LEFT JOIN "Other" 
+            ON "Foo"."ID" = "Other"."FooID" 
+        WHERE "Other"."FooID" IS NOT NULL 
+    )'
+);
+Object::add_extension(
+    'Foo', 
+    "'".json_encode($fields)."', '".json_encode($class)."'"
+);
 
 
 REBUILDING THE SEARCH INDEX
@@ -201,7 +341,14 @@ ZendSearchLuceneSearchable::$reindexOnDevBuild = false;
 
 To manually rebuild the search index, go to the SiteConfig page (at the very 
 top of the LHS site tree in the CMS, with the world icon) and there will be a
-'Rebuild Search Index' button at the bottom of the page.
+'Rebuild Search Index' button at the bottom of the page.  Clicking this button 
+will start a Queued Job, which deletes the current index, scans the site for all
+content which should be indexed, and reindexes everything.
+
+You can view reindex progress on the 'Jobs' tab, at the top of the CMS.  It will
+display when the job was started, how long it has run for, how many items there
+are to be indexed, and how many have been indexed so far.  If there are any 
+errors, these will also show up here.
 
 
 PAGINATION
@@ -408,6 +555,10 @@ TODO
 -----------------------------------------------
 
 * Allow the use of multiple indexes per project
+* Query logging
+* Test in Windows / Mac OS X, add instructions for these OSes
+* Add a language file - text strings are already translatable via _t()
+* Make text highlighter more configurable.
 
 
 Links
@@ -419,6 +570,15 @@ http://codefury.net/projects/wpSearch/
 Zend_Search_Lucene documentation
 http://zendframework.com/manual/en/zend.search.lucene.html
 
+Queued Jobs module
+http://www.silverstripe.org/queued-jobs-module/
 
+Xpdf (pdftotext PDF text extraction utility)
+http://www.foolabs.com/xpdf/
+
+catdoc (MS Office text extraction utility)
+http://wagner.pp.ru/~vitus/software/catdoc/
+http://blog.brush.co.nz/2009/09/catdoc-windows/
+http://catdoc.darwinports.com/
 
 

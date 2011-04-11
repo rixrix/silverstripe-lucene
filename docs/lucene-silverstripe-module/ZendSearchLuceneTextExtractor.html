@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+   <html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Docs For Class ZendSearchLuceneTextExtractor</title>
+  <link rel="stylesheet" href="../media/stylesheet.css" />
+  <script src="../media/lib/classTree.js"></script>
+<link id="webfx-tab-style-sheet" type="text/css" rel="stylesheet" href="../media/lib/tab.webfx.css" />
+<script type="text/javascript" src="../media/lib/tabpane.js"></script>
+  <script language="javascript" type="text/javascript" src="../media/lib/ua.js"></script>
+<script language="javascript" type="text/javascript">
+	var imgPlus = new Image();
+	var imgMinus = new Image();
+	imgPlus.src = "../media/images/plus.gif";
+	imgMinus.src = "../media/images/minus.gif";
+	
+	function showNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgMinus.src;
+		oTable.style.display = "block";
+	}
+	
+	function hideNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgPlus.src;
+		oTable.style.display = "none";
+	}
+	
+	function nodeIsVisible(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+        		break;
+        }
+		return (oTable && oTable.style.display == "block");
+	}
+	
+	function toggleNodeVisibility(Node){
+		if (nodeIsVisible(Node)){
+			hideNode(Node);
+		}else{
+			showNode(Node);
+		}
+	}
+</script>
+<!-- template designed by Julien Damon based on PHPEdit's generated templates, and tweaked by Greg Beaver -->
+<body bgcolor="#ffffff" ><!-- Start of Class Data -->
+<h2>
+	Class ZendSearchLuceneTextExtractor
+</h2> (line <span class="linenumber">10</span>)
+<div class="tab-pane" id="tabPane1">
+<script type="text/javascript">
+tp1 = new WebFXTabPane( document.getElementById( "tabPane1" ));
+</script>
+
+<div class="tab-page" id="Description">
+<h2 class="tab">Description</h2>
+<pre>
+</pre>
+<p>
+	<b><i>Located in File: <a href="_TextExtractors---ZendSearchLuceneTextExtractor.php.html">/TextExtractors/ZendSearchLuceneTextExtractor.php</a></i></b><br>
+</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Abstract base class instructing the Lucene module on how to extract text from a  given file type.</h5>
+<ul>
+		<li><strong>author:</strong> - Darren Inwood &lt;<a href="mailto:darren.inwood@chrometoaster.com">darren.inwood@chrometoaster.com</a>&gt;</li>
+		<li><strong>abstract:</strong> - </li>
+	</ul>
+<br /><hr />
+<span class="type">Classes extended from ZendSearchLuceneTextExtractor:</span>
+ 		<dl>
+	<dt><a href="../lucene-silverstripe-module/CatdocXlsExtractor.html">CatdocXlsExtractor</a></dt>
+		<dd>Extracts text from an XLS format Microsoft Excel document.  Uses the xls2csv  command-line utility to do so.  This utility is part of the catdoc suite of  command-line utilities, which can be downloaded at:</dd>
+	</dl>
+		<dl>
+	<dt><a href="../lucene-silverstripe-module/ZendSearchLuceneDocxExtractor.html">ZendSearchLuceneDocxExtractor</a></dt>
+		<dd>Extracts text from a DOCX format Microsoft Word document.  Uses the Zend  text extraction class to do so.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../lucene-silverstripe-module/TxtDocumentExtractor.html">TxtDocumentExtractor</a></dt>
+		<dd>Extracts text from a TXT text document.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../lucene-silverstripe-module/PdfDocumentExtractor.html">PdfDocumentExtractor</a></dt>
+		<dd>Extracts text from a PDF document.  Tries to use the pdftotext command-line  utility if it is installed, otherwise falls back to the PDF2Text class.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../lucene-silverstripe-module/ZendSearchLucenePptxExtractor.html">ZendSearchLucenePptxExtractor</a></dt>
+		<dd>Extracts text from a PPTX format Microsoft Powerpoint document.  Uses the  Zend text extraction class to do so.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../lucene-silverstripe-module/ZendSearchLuceneHtmlExtractor.html">ZendSearchLuceneHtmlExtractor</a></dt>
+		<dd>Extracts text from an HTML document.  Uses the Zend HTML text extraction  class to do so.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../lucene-silverstripe-module/CatdocDocExtractor.html">CatdocDocExtractor</a></dt>
+		<dd>Extracts text from a DOC format Microsoft Word document.  Uses the catdoc  command-line utility to do so.  Catdoc can be downloaded for Linux at:</dd>
+	</dl>
+		<dl>
+	<dt><a href="../lucene-silverstripe-module/CatdocPptExtractor.html">CatdocPptExtractor</a></dt>
+		<dd>Extracts text from a PPT format Microsoft Powerpoint document.  Uses the  catppt command-line utility to do so.  This utility is part of the catdoc  suite of command-line utilities, which can be downloaded at:</dd>
+	</dl>
+		<dl>
+	<dt><a href="../lucene-silverstripe-module/ZendSearchLuceneXlsxExtractor.html">ZendSearchLuceneXlsxExtractor</a></dt>
+		<dd>Extracts text from a XLSX format Microsoft Excel document.  Uses the Zend  text extraction class to do so.</dd>
+	</dl>
+	</p>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "Description" ) );</script>
+<div class="tab-page" id="tabPage1">
+
+<h2 class="tab">Class Variables</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="var-title">
+    static <span class="var-type">mixed</span>
+    <a href="#var$extensions" title="details" class="property"><strong>$extensions</strong></a>
+</div>
+<div class="var-title">
+    static <span class="var-type">mixed</span>
+    <a href="#var$priority" title="details" class="property"><strong>$priority</strong></a>
+</div>
+<hr />
+<a name="var$extensions" id="var$extensions"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">static $extensions = array()</strong> (line <span class="linenumber">19</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>An array of strings representing file extensions that can be handled by  this TextExtractor.  Do not include a dot in your extensions.  Extensions  should be in lower case, and will detect all case variations on scanned  files.</h5>
+<ul>
+		<li><strong>access:</strong> - public</li>
+	</ul>
+</div>
+<a name="var$priority" id="var$priority"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">static $priority =  100</strong> (line <span class="linenumber">28</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Controls the order in which text extractor classes are tried for a  specific file extension.  Default is 100.  To make your custom extractor  run before an inbuilt one, set this to less than 100, or to make it run  afterwards set it to more than 100.</h5>
+<ul>
+		<li><strong>access:</strong> - public</li>
+	</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage1" ) );</script>
+</div>
+<div class="tab-page" id="constantsTabpage">
+
+<h2 class="tab">Class Constants</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<hr />
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "constantsTabpage" ) );</script>
+</div>
+<div class="tab-page" id="tabPage2">
+<h2 class="tab">Method Detail</h2>
+<!-- ============ METHOD DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="method-summary">
+    <div class="method-definition">
+    static         <span class="method-result">String</span>
+        <a href="#methodextract" title="details" class="method-name">extract</a>
+        (<span class="var-type">String</span>&nbsp;<span class="var-name">$filename</span>)
+        </div>
+</div>
+<hr />
+<A NAME='method_detail'></A>
+
+
+<a name="methodextract" id="methodextract"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Static Method extract</strong> (line <span class="linenumber">37</span>)
+ </h4> 
+<h4><i>String</i> <strong>extract(
+String
+$filename)</strong></h4>
+	<p>Overridden in child classes as:<br />
+		<dl>
+	<dt><a href="../lucene-silverstripe-module/CatdocXlsExtractor.html#methodextract">CatdocXlsExtractor::extract()</a></dt>
+		<dd>Returns a string containing the text in the given Microsoft Excel XLS  document.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../lucene-silverstripe-module/ZendSearchLuceneDocxExtractor.html#methodextract">ZendSearchLuceneDocxExtractor::extract()</a></dt>
+		<dd>Returns a string containing the text in the given Microsoft Word DOCX  document.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../lucene-silverstripe-module/TxtDocumentExtractor.html#methodextract">TxtDocumentExtractor::extract()</a></dt>
+		<dd>Returns a string containing the text in the given TXT document.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../lucene-silverstripe-module/PdfDocumentExtractor.html#methodextract">PdfDocumentExtractor::extract()</a></dt>
+		<dd>Returns a string containing the text in the given TXT document.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../lucene-silverstripe-module/ZendSearchLucenePptxExtractor.html#methodextract">ZendSearchLucenePptxExtractor::extract()</a></dt>
+		<dd>Returns a string containing the text in the given Microsoft Word PPTX  document.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../lucene-silverstripe-module/ZendSearchLuceneHtmlExtractor.html#methodextract">ZendSearchLuceneHtmlExtractor::extract()</a></dt>
+		<dd>Returns a string containing the text in the given HTML document.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../lucene-silverstripe-module/CatdocDocExtractor.html#methodextract">CatdocDocExtractor::extract()</a></dt>
+		<dd>Returns a string containing the text in the given Microsoft Word DOC  document.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../lucene-silverstripe-module/CatdocPptExtractor.html#methodextract">CatdocPptExtractor::extract()</a></dt>
+		<dd>Returns a string containing the text in the given Microsoft Powerpoint  PPT document.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../lucene-silverstripe-module/ZendSearchLuceneXlsxExtractor.html#methodextract">ZendSearchLuceneXlsxExtractor::extract()</a></dt>
+		<dd>Returns a string containing the text in the given Microsoft Excel XLSX  document.</dd>
+	</dl>
+	</p>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<h5>Returns text for a given full filesystem path.  If a file cannot be  processed, you should return an empty string.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>String $filename</strong>: Full filesystem path to the file to process.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - Text extracted from the file.</li>
+			<li><strong>abstract</strong> - </li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage2" ) );</script></div>
+<div class="tab-page" id="iVars">
+<h2 class="tab">Inherited Variables</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iVars" ) );</script>
+<!-- =========== VAR INHERITED SUMMARY =========== -->
+<A NAME='var_inherited_summary'><!-- --></A>
+<h3>Inherited Class Variable Summary</h3>
+
+	</div>
+<div class="tab-page" id="iMethods">
+<h2 class="tab">Inherited Methods</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iMethods" ) );</script>
+<!-- =========== INHERITED METHOD SUMMARY =========== -->
+<A NAME='functions_inherited'><!-- --></A>
+<h3>Inherited Method Summary</h3>
+
+	</div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+
+setupAllTabs();
+
+//]]>
+</script>
+	<div id="credit">
+		<hr />
+		Documentation generated on Wed, 06 Apr 2011 14:30:28 +1200 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
+	</div>
+</body>
+</html>

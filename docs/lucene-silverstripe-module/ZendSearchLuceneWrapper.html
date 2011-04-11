@@ -1,0 +1,404 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+   <html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Docs For Class ZendSearchLuceneWrapper</title>
+  <link rel="stylesheet" href="../media/stylesheet.css" />
+  <script src="../media/lib/classTree.js"></script>
+<link id="webfx-tab-style-sheet" type="text/css" rel="stylesheet" href="../media/lib/tab.webfx.css" />
+<script type="text/javascript" src="../media/lib/tabpane.js"></script>
+  <script language="javascript" type="text/javascript" src="../media/lib/ua.js"></script>
+<script language="javascript" type="text/javascript">
+	var imgPlus = new Image();
+	var imgMinus = new Image();
+	imgPlus.src = "../media/images/plus.gif";
+	imgMinus.src = "../media/images/minus.gif";
+	
+	function showNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgMinus.src;
+		oTable.style.display = "block";
+	}
+	
+	function hideNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgPlus.src;
+		oTable.style.display = "none";
+	}
+	
+	function nodeIsVisible(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+        		break;
+        }
+		return (oTable && oTable.style.display == "block");
+	}
+	
+	function toggleNodeVisibility(Node){
+		if (nodeIsVisible(Node)){
+			hideNode(Node);
+		}else{
+			showNode(Node);
+		}
+	}
+</script>
+<!-- template designed by Julien Damon based on PHPEdit's generated templates, and tweaked by Greg Beaver -->
+<body bgcolor="#ffffff" ><!-- Start of Class Data -->
+<h2>
+	Class ZendSearchLuceneWrapper
+</h2> (line <span class="linenumber">10</span>)
+<div class="tab-pane" id="tabPane1">
+<script type="text/javascript">
+tp1 = new WebFXTabPane( document.getElementById( "tabPane1" ));
+</script>
+
+<div class="tab-page" id="Description">
+<h2 class="tab">Description</h2>
+<pre>
+</pre>
+<p>
+	<b><i>Located in File: <a href="_ZendSearchLuceneWrapper.php.html">/ZendSearchLuceneWrapper.php</a></i></b><br>
+</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Provides a wrapper to Zend Search Lucene.</h5>
+<ul>
+		<li><strong>author:</strong> - Darren Inwood &lt;<a href="mailto:darren.inwood@chrometoaster.com">darren.inwood@chrometoaster.com</a>&gt;</li>
+	</ul>
+<br /><hr />
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "Description" ) );</script>
+<div class="tab-page" id="tabPage1">
+
+<h2 class="tab">Class Variables</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="var-title">
+    static <span class="var-type">mixed</span>
+    <a href="#var$indexName" title="details" class="property"><strong>$indexName</strong></a>
+</div>
+<hr />
+<a name="var$indexName" id="var$indexName"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">static $indexName =  'Silverstripe'</strong> (line <span class="linenumber">16</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>The name of the index.</h5>
+<ul>
+		<li><strong>access:</strong> - public</li>
+	</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage1" ) );</script>
+</div>
+<div class="tab-page" id="constantsTabpage">
+
+<h2 class="tab">Class Constants</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<hr />
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "constantsTabpage" ) );</script>
+</div>
+<div class="tab-page" id="tabPage2">
+<h2 class="tab">Method Detail</h2>
+<!-- ============ METHOD DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="method-summary">
+    <div class="method-definition">
+    static         <span class="method-result">void</span>
+        <a href="#methodaddCreateIndexCallback" title="details" class="method-name">addCreateIndexCallback</a>
+        (<span class="var-type">String|Array</span>&nbsp;<span class="var-name">$callback</span>)
+        </div>
+    <div class="method-definition">
+    static         <span class="method-result">void</span>
+        <a href="#methoddelete" title="details" class="method-name">delete</a>
+        (<span class="var-type">DataObject</span>&nbsp;<span class="var-name">$object</span>)
+        </div>
+    <div class="method-definition">
+    static         <span class="method-result">Array</span>
+        <a href="#methodfind" title="details" class="method-name">find</a>
+        (<span class="var-type">Mixed</span>&nbsp;<span class="var-name">$query</span>)
+        </div>
+    <div class="method-definition">
+    static         <span class="method-result">void</span>
+        <a href="#methodgetAllIndexableObjects" title="details" class="method-name">getAllIndexableObjects</a>
+        ([<span class="var-type"></span>&nbsp;<span class="var-name">$className</span> = <span class="var-default">'DataObject'</span>])
+        </div>
+    <div class="method-definition">
+    static         <span class="method-result">void</span>
+        <a href="#methodgetFieldValue" title="details" class="method-name">getFieldValue</a>
+        (<span class="var-type"></span>&nbsp;<span class="var-name">$object</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$fieldName</span>)
+        </div>
+    <div class="method-definition">
+    static         <span class="method-result">Zend_Search_Lucene_Interface</span>
+        <a href="#methodgetIndex" title="details" class="method-name">getIndex</a>
+        ([<span class="var-type">String</span>&nbsp;<span class="var-name">$forceCreate</span> = <span class="var-default">false</span>])
+        </div>
+    <div class="method-definition">
+    static         <span class="method-result">void</span>
+        <a href="#methodindex" title="details" class="method-name">index</a>
+        (<span class="var-type">DataObject</span>&nbsp;<span class="var-name">$object</span>)
+        </div>
+    <div class="method-definition">
+    static         <span class="method-result">Integer</span>
+        <a href="#methodrebuildIndex" title="details" class="method-name">rebuildIndex</a>
+        ()
+        </div>
+</div>
+<hr />
+<A NAME='method_detail'></A>
+
+
+<a name="methodaddCreateIndexCallback" id="methodaddCreateIndexCallback"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Static Method addCreateIndexCallback</strong> (line <span class="linenumber">357</span>)
+ </h4> 
+<h4><i>void</i> <strong>addCreateIndexCallback(
+String|Array
+$callback)</strong></h4>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<h5>Register a callback to run when creating an index.  Useful for setting  advanced index options.  For example:</h5>
+<div class="desc"><p><div class="src-code"><ol><li><div class="src-line">&nbsp;<font color="blue">function&nbsp;</font>create_index_callback<strong>(</strong><strong>)&nbsp;</strong><strong>{</strong></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;<strong>$index&nbsp;</strong>=&nbsp;ZendSeachLuceneWrapper<strong>::</strong>getIndex<strong>(</strong><strong>)</strong><strong>;</strong></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;<strong>$index</strong><strong>-&gt;</strong>setMaxBufferedDocs<strong>(</strong>20<strong>)</strong><strong>;</strong></div></li>
+<li><div class="src-line">&nbsp;<strong>}</strong></div></li>
+<li><div class="src-line">&nbsp;<a href="../lucene-silverstripe-module/ZendSearchLuceneWrapper.html">ZendSearchLuceneWrapper</a><strong>::</strong><a href="../lucene-silverstripe-module/ZendSearchLuceneWrapper.html#methodaddCreateIndexCallback">addCreateIndexCallback</a><strong>(</strong><font color="#66cccc">'create_index_callback'</font><strong>)</strong><strong>;</strong></div></li>
+</ol></div></p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>String|Array $callback</strong>: A PHP callback to call whenever the Search                                index is created.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methoddelete" id="methoddelete"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Static Method delete</strong> (line <span class="linenumber">221</span>)
+ </h4> 
+<h4><i>void</i> <strong>delete(
+DataObject
+$object)</strong></h4>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<h5>Delete a DataObject from the search index.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>DataObject $object</strong>: The DataObject to delete from the index.  If the DataObject                                   does not have the ZendSearchLuceneSearchable                                   extension, it is not deleted.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodfind" id="methodfind"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Static Method find</strong> (line <span class="linenumber">56</span>)
+ </h4> 
+<h4><i>Array</i> <strong>find(
+Mixed
+$query)</strong></h4>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<h5>Returns a set of results from Zend Search Lucene from the given search  parameters.</h5>
+<div class="desc"><p>It is possible to either pass in a string (which is what the default  form provided by this package does), or build your own query using the  Zend_Search_Lucene query building API.</p><p><a href="http://zendframework.com/manual/en/zend.search.lucene.searching.html">http://zendframework.com/manual/en/zend.search.lucene.searching.html</a></p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>Mixed $query</strong>: String or object to pass to the find() method                                   of the index.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - An array of Zend_Search_Lucene_Search_QueryHit                           objects representing the results of the search.</li>
+			<li><strong>link</strong> - <a href="http://framework.zend.com/apidoc/core/Zend_Search_Lucene/Zend_Search_Lucene_Proxy.html#find">http://framework.zend.com/apidoc/core/Zend_Search_Lucene/Zend_Search_Lucene_Proxy.html#find</a></li>
+			<li><strong>todo</strong> - Add query logging</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetAllIndexableObjects" id="methodgetAllIndexableObjects"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Static Method getAllIndexableObjects</strong> (line <span class="linenumber">387</span>)
+ </h4> 
+<h4><i>void</i> <strong>getAllIndexableObjects(
+[
+$className = 'DataObject'])</strong></h4>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<h5>Returns a data array of all indexable DataObjects.  For use when reindexing.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong> $className</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetFieldValue" id="methodgetFieldValue"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Static Method getFieldValue</strong> (line <span class="linenumber">301</span>)
+ </h4> 
+<h4><i>void</i> <strong>getFieldValue(
+
+$object, 
+$fieldName)</strong></h4>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<h5>Function to reduce a nested dot-notated field name to a string value.</h5>
+<div class="desc"><p>Recurses into itself, going as deep as the relation needs to until it  ends up with a string to return.</p><p>If the fieldname can't be resolved for the given object, returns an empty  string.</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong> $object</strong>: </li>
+			<li><strong> $fieldName</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetIndex" id="methodgetIndex"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Static Method getIndex</strong> (line <span class="linenumber">93</span>)
+ </h4> 
+<h4><i>Zend_Search_Lucene_Interface</i> <strong>getIndex(
+[String
+$forceCreate = false])</strong></h4>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<h5>Retrieves a Zend_Search_Lucene_Interface object connected to the search  index.</h5>
+<div class="desc"><p>If the index does not exist, it is created.  On creation, any callbacks  added using ZendSearchLuceneWrapper::addCreateIndexCallback() are run.  To use this feature, add your callback registration to your _config.php:</p><p><div class="src-code"><ol><li><div class="src-line">&nbsp;<font color="blue">function&nbsp;</font>create_index_callback<strong>(</strong><strong>)&nbsp;</strong><strong>{</strong></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>$index&nbsp;</strong>=&nbsp;ZendSeachLuceneWrapper<strong>::</strong>getIndex<strong>(</strong><strong>)</strong><strong>;</strong></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>$index</strong><strong>-&gt;</strong>setMaxBufferedDocs<strong>(</strong>20<strong>)</strong><strong>;</strong></div></li>
+<li><div class="src-line">&nbsp;<strong>}</strong></div></li>
+<li><div class="src-line">&nbsp;<a href="../lucene-silverstripe-module/ZendSearchLuceneWrapper.html">ZendSearchLuceneWrapper</a><strong>::</strong><a href="../lucene-silverstripe-module/ZendSearchLuceneWrapper.html#methodaddCreateIndexCallback">addCreateIndexCallback</a><strong>(</strong><font color="#66cccc">'create_index_callback'</font><strong>)</strong><strong>;</strong></div></li>
+</ol></div></p><p>The index lives in the directory specified by the $cacheDirectory static.  If the index already exists, it is opened, unless $forceCache is set  true, in which case the existing index is blanked and a new one created  in its place.  This is useful for re-indexing a site.</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>String $forceCreate</strong>: Whether to force creation of the index even           if it already exists.  Defaults to false, which opens the index           if it exists.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>link</strong> - <a href="http://zendframework.com/apidoc/1.10/Zend_Search_Lucene/Index/Zend_Search_Lucene_Interface.html">http://zendframework.com/apidoc/1.10/Zend_Search_Lucene/Index/Zend_Search_Lucene_Interface.html</a></li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodindex" id="methodindex"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Static Method index</strong> (line <span class="linenumber">126</span>)
+ </h4> 
+<h4><i>void</i> <strong>index(
+DataObject
+$object)</strong></h4>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<h5>Indexes a DataObject.</h5>
+<div class="desc"><p>File objects have text extracted from them using subclasses of the  ZendSearchLuceneTextExtractor class.  Any number of text extractors can  attempt to scan a file of any given extension; the first successful one  will be used.</p><p>If the dataobject has a function called Link(), this will be added as an  unindexed field.</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>DataObject $object</strong>: The DataObject to index.  If the DataObject                                   does not have the ZendSearchLuceneSearchable                                   extension, it is not indexed.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodrebuildIndex" id="methodrebuildIndex"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Static Method rebuildIndex</strong> (line <span class="linenumber">377</span>)
+ </h4> 
+<h4><i>Integer</i> <strong>rebuildIndex(
+)</strong></h4>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<h5>Rebuilds the search index.  Generally called via register_shutdown_function().</h5>
+<div class="desc"><p>When the process starts, a lock file is created in the temp folder to prevent other  reindexes from being started when one is already running.</p><p>After each document is indexed, a count is updated in a file in the temp  folder.  This enables the system to keep a count of how many documents  have been indexed so far in a running process, or how many documents  were indexed the last time the reindex process was run.</p><p>When the process exits, a second file is created containing the time  taken to reindex.</p></div>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - Returns the number of documents that were indexed.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage2" ) );</script></div>
+<div class="tab-page" id="iVars">
+<h2 class="tab">Inherited Variables</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iVars" ) );</script>
+<!-- =========== VAR INHERITED SUMMARY =========== -->
+<A NAME='var_inherited_summary'><!-- --></A>
+<h3>Inherited Class Variable Summary</h3>
+
+	</div>
+<div class="tab-page" id="iMethods">
+<h2 class="tab">Inherited Methods</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iMethods" ) );</script>
+<!-- =========== INHERITED METHOD SUMMARY =========== -->
+<A NAME='functions_inherited'><!-- --></A>
+<h3>Inherited Method Summary</h3>
+
+	</div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+
+setupAllTabs();
+
+//]]>
+</script>
+	<div id="credit">
+		<hr />
+		Documentation generated on Wed, 06 Apr 2011 14:30:28 +1200 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
+	</div>
+</body>
+</html>

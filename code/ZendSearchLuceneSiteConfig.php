@@ -3,7 +3,7 @@
 /**
  * Adds a button the Site Config page of the CMS to rebuild the Lucene search index.
  * 
- * @package lucene-silverstripe-plugin
+ * @package lucene-silverstripe-module
  * @author Darren Inwood <darren.inwood@chrometoaster.com>
  */
  

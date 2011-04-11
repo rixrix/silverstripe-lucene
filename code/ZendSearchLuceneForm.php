@@ -3,10 +3,9 @@
 /**
  * The search form.
  * 
- * @package lucene-silverstripe-plugin
+ * @package lucene-silverstripe-module
  * @author Darren Inwood <darren.inwood@chrometoaster.com>
  */
-
 class ZendSearchLuceneForm extends Form {
 
     public function __construct($controller) {

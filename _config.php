@@ -6,6 +6,7 @@ set_include_path(
     get_include_path() . PATH_SEPARATOR . dirname(__FILE__).'/thirdparty'
 );
 
-ZendSearchLuceneSearchable::$cacheDirectory = TEMP_FOLDER;
-ZendSearchLuceneSearchable::$encoding = 'utf-8';
-
+Director::addRules(
+    100, 
+    array( 'Lucene' => 'LeftAndMain' )
+);

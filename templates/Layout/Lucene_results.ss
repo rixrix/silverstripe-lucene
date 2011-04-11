@@ -1,12 +1,9 @@
-
-            <div class="lucene-results">
-                <p>Your search for <strong>&quot;$Query&quot;</strong> found $TotalResults result<% if TotalResults != 1 %>s<% end_if %>.</p>
-
+            <div id="results">
+              <p class="text-result-summary">You searched for <strong>$Query</strong></p>
 <% if Results %>
-                <p>showing page $ThisPage of $TotalPages</p>
+              <p class="text-result-summary">Showing {$StartResult}-{$EndResult} of $TotalResults result<% if TotalResults != 1 %>s<% end_if %>. </p>
 
                 <!-- START search results -->
-
                 <ul id="SearchResults">
                     <% control Results %>
                     <li>
@@ -17,8 +14,7 @@
                     <% end_control %>
                 </ul>
                 <!-- END search results -->
-
-                <p>showing page $ThisPage of $TotalPages</p>
+                <p class="text-result-summary">Showing {$StartResult}-{$EndResult} of $TotalResults result<% if TotalResults != 1 %>s<% end_if %>. </p>
 
                 <% if SearchPages %>
                 <!-- START pagination -->
@@ -43,8 +39,8 @@
                     </ul>
                 <!-- END pagination -->                
                 <% end_if %>
-
 <% else %>
                 <p>No results.</p>
 <% end_if %>
             </div>
+

@@ -1,0 +1,10 @@
+Silverstripe Lucene 0.4 - 11 April 2011
+=======================================
+Added dependency on 'queuedjobs' module.
+Reindex will now restart if it times out.
+Moved all text extraction into external classes that can be plugged in, allowing 
+more to be written by third parties.
+Changed indexing of relations to be recursive - you can nest as deep as you like
+now.
+Updated documentation.
+Added field-level configuration and more class-level configuration options.

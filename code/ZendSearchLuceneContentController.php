@@ -1,15 +1,19 @@
 <?php
 
 /**
- * Extension to provide a search interface when applied to ContentController
+ * Extension to provide a search interface when applied to ContentController.
  * 
- * @package lucene-silverstripe-plugin
+ * @package lucene-silverstripe-module
  * @author Darren Inwood <darren.inwood@chrometoaster.com>
  */
- 
 class ZendSearchLuceneContentController extends Extension { 
 
-	static $allowed_actions = array(
+    /**
+     * Enables the search form to talk to the controller.
+     * @access public
+     * @static
+     */
+	public static $allowed_actions = array(
 		'ZendSearchLuceneForm',
 		'ZendSearchLuceneResults',
 		'results'
@@ -18,21 +22,24 @@ class ZendSearchLuceneContentController extends Extension {
 	/**
 	 * Returns the Lucene-powered search Form object.
      * 
+     * @access public
 	 * @return  Form    A Form object representing the search form.
 	 */
-	function ZendSearchLuceneForm() {
+	public function ZendSearchLuceneForm() {
 		return Object::create('ZendSearchLuceneForm', $this->owner);
 	}
 
 	/**
-	 * Process and render search results.
+	 * Process and render search results. Uses the Lucene_results.ss template to
+	 * render the form.
 	 * 
+     * @access public
 	 * @param   array           $data       The raw request data submitted by user
 	 * @param   Form            $form       The form instance that was submitted
 	 * @param   SS_HTTPRequest  $request    Request generated for this action
 	 * @return  String                      The rendered form, for inclusion into the page template.
 	 */
-	function ZendSearchLuceneResults($data, $form, $request) {
+	public function ZendSearchLuceneResults($data, $form, $request) {
 		$querystring = $form->dataFieldByName('Search')->dataValue();
 		$query = Zend_Search_Lucene_Search_QueryParser::parse($querystring);
 		$hits = ZendSearchLuceneWrapper::find($query);
@@ -42,16 +49,21 @@ class ZendSearchLuceneContentController extends Extension {
 
     /**
      * Wrapper around ZendSearchLuceneResults, for when we are using $SearchForm
+     * in templates.
      */
-    function results($data, $form, $request) {
+    public function results($data, $form, $request) {
         return $this->ZendSearchLuceneResults($data, $form, $request);
     }
 
     /**
      * Makes $SearchForm included in many stock templates return a Lucene form
-     * analogous to the one that the FulltextSearchable extension outputs...
+     * analogous to the one that the FulltextSearchable extension outputs. Uses
+     * the SearchForm.ss template that comes with Sapphire (or an overridden
+     * custom version if one is available, as per the regular SearchForm).
+     *
+     * @return String       The rendered form, for inclusion into the page template.
      */
-    function SearchForm() {
+    public function SearchForm() {
         $form = $this->ZendSearchLuceneForm();
         // Use the same CSS as the stock search form...
         $form->setHTMLId('SearchForm_SearchForm');
@@ -68,6 +80,50 @@ class ZendSearchLuceneContentController extends Extension {
      * Returns a data array suitable for customising a Page with, containing
      * search result and pagination information.
      * 
+     * Returns a data array suitable for customising a Page with, containing
+     * search result and pagination information.  The format of the return is:
+     *
+     * <code>
+     * array(
+     *     'Results' => DataObjectSet containing the objects found by the search
+     *                  on the currently displayed page
+     *     'Query' => The original query contained in a TextField object
+     *     'Title' => The page title contained in a TextField object
+     *     'TotalResults' => The total number of results found, as a TextField
+     *     'TotalPages' => The total number of pages, as a TextField
+     *     'ThisPage' => Page number of the current page, as a TextField
+     *     'StartResult' => Number of the first result displayed on the current
+     *                      page.
+     *     'EndResult' => Number of the last result displayed on the current
+     *                      page.
+     *     'PrevUrl' => URL to get to the previous page of results.  False if
+     *                  there are no results. A TextField object.
+     *     'NextUrl => URL to get to the next page of results.  False if there 
+     *                 are no results. A TextField object.
+     *     'SearchPages' => A DataObjectSet containing the search pages to show
+     *                      in pagination.
+     * )
+     * </code>
+     *
+     * Each result in Results is a bona fide DataObject stored in the database.
+     * This may be any of the types searched, so you should ensure your search 
+     * results template can display all types that can be returned.
+     *
+     * SearchPages contains a set of Objects that have three parameters:
+     * <ul>
+     *   <li>Link - the URL this page should link to.</li>
+     *   <li>Current - a boolean indicating whether this page is the currently 
+     *   displayed page.</li>
+     *   <li>IsEllipsis - a boolean indicating whether this page is actually an
+     *   ellipsis indicating more pages that aren't shown.</li>
+     * </ul>
+     *
+     * Uses the ZendSearchLuceneSearchable::$pageLength, 
+     * ZendSearchLuceneSearchable::$alwaysShowPages and 
+     * ZendSearchLuceneSearchable::$maxShowPages static vars to indicate the 
+     * pagination structure.
+     * 
+     * @access private
      * @param   Array           $hits       An array of Zend_Search_Lucene_Search_QueryHit objects
      * @param   SS_HTTPRequest  $request    The request that generated the search
      * @return  Array                       A custom array containing pagination data.
@@ -76,7 +132,7 @@ class ZendSearchLuceneContentController extends Extension {
 		$data = array(
 			'Results' => null,
 			'Query' => null,
-			'Title' => 'Search Results',
+			'Title' => DBField::create('Text', _t('ZendSearchLucene.SearchResultsTitle', 'Search Results')),
 			'TotalResults' => null,
 			'TotalPages' => null,
 			'ThisPage' => null,
@@ -101,28 +157,17 @@ class ZendSearchLuceneContentController extends Extension {
         $results = new DataObjectSet();
 		foreach($hits as $k => $hit) {
 		    if ( $k < ($currentPage-1)*$pageLength || $k >= ($currentPage*$pageLength) ) continue;
-			$className = $hit->ClassName;
-			$vars = new $className();
-			$vars = $vars->getSearchedVars();
-			$obj = new DataObject();
-			foreach ( $vars as $var ) {
-			    try {
-                    // Copy scanned text into Content if Content is empty
-                    // Zend uses 'body' for scanned text, & we can't change it 
-                    // without altering the Zend source.
-                    if ( $var == 'Content' && $hit->Content == '' && $hit->body != '' ) {
-                        $value = $hit->body;
-                    } else {
-    			        $value = $hit->$var;
-    			    }
-    			    $obj->$var = $value;
-                } catch (Exception $e) { }
+			$obj = DataObject::get_by_id($hit->ClassName, $hit->ObjectID);
+			if ( ! $obj ) {
+			    // The index is out of sync with reality - that item doesn't actually exist.
+                continue;
 			}
 			$obj->score = $hit->score;
 			$obj->Number = $k + 1; // which number result it is...
+			$obj->Link = $hit->Link;
 			$results->push($obj);
 		}
-		
+
 	    $data['Results'] = $results;
 	    $data['Query']   = DBField::create('Text', $request->requestVar('Search'));
 	    $data['TotalResults'] = DBField::create('Text', count($hits));
@@ -206,7 +251,7 @@ class ZendSearchLuceneContentController extends Extension {
                 }                
             }
         }
-        
+
         return $data;
     }
 

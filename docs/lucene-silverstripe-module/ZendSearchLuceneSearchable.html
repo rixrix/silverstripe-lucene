@@ -1,0 +1,658 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+   <html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Docs For Class ZendSearchLuceneSearchable</title>
+  <link rel="stylesheet" href="../media/stylesheet.css" />
+  <script src="../media/lib/classTree.js"></script>
+<link id="webfx-tab-style-sheet" type="text/css" rel="stylesheet" href="../media/lib/tab.webfx.css" />
+<script type="text/javascript" src="../media/lib/tabpane.js"></script>
+  <script language="javascript" type="text/javascript" src="../media/lib/ua.js"></script>
+<script language="javascript" type="text/javascript">
+	var imgPlus = new Image();
+	var imgMinus = new Image();
+	imgPlus.src = "../media/images/plus.gif";
+	imgMinus.src = "../media/images/minus.gif";
+	
+	function showNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgMinus.src;
+		oTable.style.display = "block";
+	}
+	
+	function hideNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgPlus.src;
+		oTable.style.display = "none";
+	}
+	
+	function nodeIsVisible(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+        		break;
+        }
+		return (oTable && oTable.style.display == "block");
+	}
+	
+	function toggleNodeVisibility(Node){
+		if (nodeIsVisible(Node)){
+			hideNode(Node);
+		}else{
+			showNode(Node);
+		}
+	}
+</script>
+<!-- template designed by Julien Damon based on PHPEdit's generated templates, and tweaked by Greg Beaver -->
+<body bgcolor="#ffffff" ><!-- Start of Class Data -->
+<h2>
+	Class ZendSearchLuceneSearchable
+</h2> (line <span class="linenumber">30</span>)
+<div class="tab-pane" id="tabPane1">
+<script type="text/javascript">
+tp1 = new WebFXTabPane( document.getElementById( "tabPane1" ));
+</script>
+
+<div class="tab-page" id="Description">
+<h2 class="tab">Description</h2>
+<pre>
+DataObjectDecorator
+   |
+   --ZendSearchLuceneSearchable</pre>
+<p>
+	<b><i>Located in File: <a href="_ZendSearchLuceneSearchable.php.html">/ZendSearchLuceneSearchable.php</a></i></b><br>
+</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Decorates a DataObject, giving it the ability to be indexed and searched by  Zend_Search_Lucene.</h5>
+<div class="desc"><p>To define custom columns, you should this line into your site _config.php:</p><p><div class="src-code"><ol><li><div class="src-line">&nbsp;<a href="../lucene-silverstripe-module/ZendSearchLuceneSearchable.html">ZendSearchLuceneSearchable</a><strong>::</strong><a href="../lucene-silverstripe-module/ZendSearchLuceneSearchable.html#methodenable">enable</a><strong>(</strong>array<strong>(</strong><strong>))</strong><strong>;</strong></div></li>
+</ol></div></p><p>This sets up things without defining columns for any classes.</p><p>After this, you can define non-default columns to index for each object by using:</p><p><div class="src-code"><ol><li><div class="src-line">&nbsp;Object<strong>::</strong>add_extension<strong>(</strong></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#66cccc">'SiteTree'</font><strong>,</strong></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#66cccc">&quot;ZendSearchLuceneSearchable('Title,MenuTitle,Content,MetaTitle,MetaDescription,MetaKeywords')&quot;</font></div></li>
+<li><div class="src-line">&nbsp;<strong>)</strong><strong>;</strong></div></li>
+</ol></div></p><p>See the docs for the __construct function for advanced config options.</p></div>
+<ul>
+		<li><strong>author:</strong> - Darren Inwood &lt;<a href="mailto:darren.inwood@chrometoaster.com">darren.inwood@chrometoaster.com</a>&gt;</li>
+	</ul>
+<br /><hr />
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "Description" ) );</script>
+<div class="tab-page" id="tabPage1">
+
+<h2 class="tab">Class Variables</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="var-title">
+    static <span class="var-type">mixed</span>
+    <a href="#var$alwaysShowPages" title="details" class="property"><strong>$alwaysShowPages</strong></a>
+</div>
+<div class="var-title">
+    static <span class="var-type">mixed</span>
+    <a href="#var$cacheDirectory" title="details" class="property"><strong>$cacheDirectory</strong></a>
+</div>
+<div class="var-title">
+    static <span class="var-type">mixed</span>
+    <a href="#var$defaultColumns" title="details" class="property"><strong>$defaultColumns</strong></a>
+</div>
+<div class="var-title">
+    static <span class="var-type">mixed</span>
+    <a href="#var$encoding" title="details" class="property"><strong>$encoding</strong></a>
+</div>
+<div class="var-title">
+    static <span class="var-type">mixed</span>
+    <a href="#var$extraSearchFields" title="details" class="property"><strong>$extraSearchFields</strong></a>
+</div>
+<div class="var-title">
+    static <span class="var-type">mixed</span>
+    <a href="#var$keyword_fields" title="details" class="property"><strong>$keyword_fields</strong></a>
+</div>
+<div class="var-title">
+    static <span class="var-type">mixed</span>
+    <a href="#var$maxShowPages" title="details" class="property"><strong>$maxShowPages</strong></a>
+</div>
+<div class="var-title">
+    static <span class="var-type">mixed</span>
+    <a href="#var$pageLength" title="details" class="property"><strong>$pageLength</strong></a>
+</div>
+<div class="var-title">
+    static <span class="var-type">mixed</span>
+    <a href="#var$reindexOnDevBuild" title="details" class="property"><strong>$reindexOnDevBuild</strong></a>
+</div>
+<div class="var-title">
+    static <span class="var-type">mixed</span>
+    <a href="#var$unindexed_fields" title="details" class="property"><strong>$unindexed_fields</strong></a>
+</div>
+<div class="var-title">
+    static <span class="var-type">mixed</span>
+    <a href="#var$unstored_fields" title="details" class="property"><strong>$unstored_fields</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">mixed</span>
+    <a href="#var$classConfig" title="details" class="property"><strong>$classConfig</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">mixed</span>
+    <a href="#var$fieldConfig" title="details" class="property"><strong>$fieldConfig</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">mixed</span>
+    <a href="#var$_classConfig" title="details" class="property"><strong>$_classConfig</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">mixed</span>
+    <a href="#var$_fieldConfig" title="details" class="property"><strong>$_fieldConfig</strong></a>
+</div>
+<hr />
+<a name="var$alwaysShowPages" id="var$alwaysShowPages"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">static $alwaysShowPages =  3</strong> (line <span class="linenumber">42</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Always show this many pages in pagination (can be zero)</h5>
+<ul>
+		<li><strong>access:</strong> - public</li>
+	</ul>
+</div>
+<a name="var$cacheDirectory" id="var$cacheDirectory"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">static $cacheDirectory =  TEMP_FOLDER</strong> (line <span class="linenumber">60</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Full filesystem path to the directory where the index files should live</h5>
+<ul>
+		<li><strong>access:</strong> - public</li>
+	</ul>
+</div>
+<a name="var$defaultColumns" id="var$defaultColumns"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">static $defaultColumns = array(<br />		'SiteTree' =&gt; 'Title,MenuTitle,Content,MetaTitle,MetaDescription,MetaKeywords',<br />		'File' =&gt; 'Filename,Title,Content'<br />	)</strong> (line <span class="linenumber">83</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Default fields to index for each Searchable decorated class.  This isn't  public - it's just a convenience thing, for those people who just want to  get up and running with indexing SiteTree and File with minimum  configuration.</h5>
+<ul>
+		<li><strong>access:</strong> - protected</li>
+	</ul>
+</div>
+<a name="var$encoding" id="var$encoding"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">static $encoding =  'utf-8'</strong> (line <span class="linenumber">54</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Encoding in which indexes are created and searches made.</h5>
+<ul>
+		<li><strong>access:</strong> - public</li>
+	</ul>
+</div>
+<a name="var$extraSearchFields" id="var$extraSearchFields"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">static $extraSearchFields = array('ID','ClassName','LastEdited')</strong> (line <span class="linenumber">73</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Fields which are also indexed in addition to content fields.</h5>
+<ul>
+		<li><strong>access:</strong> - protected</li>
+	</ul>
+</div>
+<a name="var$keyword_fields" id="var$keyword_fields"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">static $keyword_fields = array(<br />        'ID', 'ClassName'<br />    )</strong> (line <span class="linenumber">111</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Fields which should be indexed as 'keyword' by default.</h5>
+<ul>
+		<li><strong>access:</strong> - protected</li>
+	</ul>
+</div>
+<a name="var$maxShowPages" id="var$maxShowPages"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">static $maxShowPages =  8</strong> (line <span class="linenumber">48</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Maximum number of pages shown in pagination (ellipsis are used to indicate more pages)</h5>
+<ul>
+		<li><strong>access:</strong> - public</li>
+	</ul>
+</div>
+<a name="var$pageLength" id="var$pageLength"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">static $pageLength =  10</strong> (line <span class="linenumber">36</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Number of results per pagination page</h5>
+<ul>
+		<li><strong>access:</strong> - public</li>
+	</ul>
+</div>
+<a name="var$reindexOnDevBuild" id="var$reindexOnDevBuild"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">static $reindexOnDevBuild =  true</strong> (line <span class="linenumber">67</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Boolean indicating whether we should rebuild the index whenever a  dev/build is run.</h5>
+<ul>
+		<li><strong>access:</strong> - public</li>
+	</ul>
+</div>
+<a name="var$unindexed_fields" id="var$unindexed_fields"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">static $unindexed_fields = array(<br />        'LastEdited', 'Created'<br />    )</strong> (line <span class="linenumber">102</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Fields which should be indexed as 'unindexed' by default.</h5>
+<ul>
+		<li><strong>access:</strong> - protected</li>
+	</ul>
+</div>
+<a name="var$unstored_fields" id="var$unstored_fields"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">static $unstored_fields = array(<br />        'MenuTitle', 'MetaTitle', 'MetaDescription', 'MetaKeywords'<br />    )</strong> (line <span class="linenumber">93</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Fields which should be indexed as 'unstored' by default.</h5>
+<ul>
+		<li><strong>access:</strong> - protected</li>
+	</ul>
+</div>
+<a name="var$classConfig" id="var$classConfig"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$classConfig =  null</strong> (line <span class="linenumber">134</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>The config options for this DataObject class.  This is not public, and  should be set by configuring the class via the Object::add_extension argument.</h5>
+<ul>
+		<li><strong>access:</strong> - protected</li>
+	</ul>
+</div>
+<a name="var$fieldConfig" id="var$fieldConfig"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$fieldConfig =  null</strong> (line <span class="linenumber">121</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>The fields which can be searched for each DataObject class, and indexing  info for each field.  This is not public, and should be set by configuring  the class via the Object::add_extension argument.</h5>
+<ul>
+		<li><strong>access:</strong> - protected</li>
+	</ul>
+</div>
+<a name="var$_classConfig" id="var$_classConfig"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_classConfig =  null</strong> (line <span class="linenumber">141</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>The raw string used to configure the object.  We have to store it and parse  it on first use at runtime, because the owner of the decorator isn't set in  the constructor.</h5>
+<ul>
+		<li><strong>access:</strong> - protected</li>
+	</ul>
+</div>
+<a name="var$_fieldConfig" id="var$_fieldConfig"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_fieldConfig =  null</strong> (line <span class="linenumber">128</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>The raw string used to configure the object's fields.  We have to store it and parse  it on first use at runtime, because the owner of the decorator isn't set in  the constructor.</h5>
+<ul>
+		<li><strong>access:</strong> - protected</li>
+	</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage1" ) );</script>
+</div>
+<div class="tab-page" id="constantsTabpage">
+
+<h2 class="tab">Class Constants</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<hr />
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "constantsTabpage" ) );</script>
+</div>
+<div class="tab-page" id="tabPage2">
+<h2 class="tab">Method Detail</h2>
+<!-- ============ METHOD DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="method-summary">
+    <div class="method-definition">
+    static         <span class="method-result">void</span>
+        <a href="#methodenable" title="details" class="method-name">enable</a>
+        ([<span class="var-type">Array</span>&nbsp;<span class="var-name">$searchableClasses</span> = <span class="var-default">array('SiteTree', 'File')</span>])
+        </div>
+    <div class="method-definition">
+            <span class="method-result">ZendSearchLuceneSearchable</span>
+        <a href="#method__construct" title="details" class="method-name">__construct</a>
+        ([<span class="var-type"></span>&nbsp;<span class="var-name">$fieldConfig</span> = <span class="var-default">null</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$classConfig</span> = <span class="var-default">null</span>])
+        </div>
+    <div class="method-definition">
+            <span class="method-result">Array</span>
+        <a href="#methodgetExtraSearchFields" title="details" class="method-name">getExtraSearchFields</a>
+        ()
+        </div>
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodgetLuceneClassConfig" title="details" class="method-name">getLuceneClassConfig</a>
+        ()
+        </div>
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodgetLuceneFieldConfig" title="details" class="method-name">getLuceneFieldConfig</a>
+        (<span class="var-type"></span>&nbsp;<span class="var-name">$fieldName</span>)
+        </div>
+    <div class="method-definition">
+            <span class="method-result">Array</span>
+        <a href="#methodgetSearchedVars" title="details" class="method-name">getSearchedVars</a>
+        ()
+        </div>
+    <div class="method-definition">
+            <span class="method-result">Array</span>
+        <a href="#methodgetSearchFields" title="details" class="method-name">getSearchFields</a>
+        ()
+        </div>
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodonAfterDelete" title="details" class="method-name">onAfterDelete</a>
+        ()
+        </div>
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodonAfterWrite" title="details" class="method-name">onAfterWrite</a>
+        ()
+        </div>
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodrequireDefaultRecords" title="details" class="method-name">requireDefaultRecords</a>
+        ()
+        </div>
+</div>
+<hr />
+<A NAME='method_detail'></A>
+
+
+<a name="methodenable" id="methodenable"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Static Method enable</strong> (line <span class="linenumber">342</span>)
+ </h4> 
+<h4><i>void</i> <strong>enable(
+[Array
+$searchableClasses = array('SiteTree', 'File')])</strong></h4>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<h5>Enable the default configuration of Zend Search Lucene searching on the  given data classes.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>Array $searchableClasses</strong>: An array of classnames to scan.  Can                                       choose from SiteTree and/or File.                                       To not scan any classes, for example                                       if we will define custom fields to scan,                                       pass in an empty array.                                       Defaults to scan SiteTree and File.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="method__construct" id="method__construct"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/Constructor.gif" border="0" /> <strong class="method">Constructor __construct</strong> (line <span class="linenumber">196</span>)
+ </h4> 
+<h4><i>ZendSearchLuceneSearchable</i> <strong>__construct(
+[
+$fieldConfig = null], [
+$classConfig = null])</strong></h4>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<h5>Called by the system when initialising each instance of the decorated  class.  The argument comes from the Object::add_extension call in the  project's _config.php file.</h5>
+<div class="desc"><p>Field configuration can simply be a comma-separated list of fieldnames to scan,  or alternatively can be a json-encoded string containing extended config  information.  Or you can leave it blank.</p><p>All keys are optional for each fieldname.  The format for $fieldConfig is:</p><p><div class="src-code"><ol><li><div class="src-line">&nbsp;array<strong>(</strong></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;<font color="#66cccc">'FieldName'&nbsp;</font>=&gt;&nbsp;array<strong>(</strong></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#66cccc">'name'&nbsp;</font>=&gt;&nbsp;<font color="#66cccc">'StoredName'</font><strong>,</strong></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#66cccc">'type'&nbsp;</font>=&gt;&nbsp;<font color="#66cccc">'keyword|unindexed|unstored|text'</font><strong>,</strong></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#66cccc">'content_filter'&nbsp;</font>=&gt;&nbsp;<strong>[</strong>callback<strong>]</strong>|false</div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>)</strong><strong>,</strong></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>[</strong>...<strong>]</strong></div></li>
+<li><div class="src-line">&nbsp;<strong>)</strong></div></li>
+</ol></div></p><p>FieldName - the name of the field on the decorated class</p><p>name - the name to store this as in the document.  Default is the same as  the FieldName.  The FieldName of 'ID' is a special case, this will always  use a name of 'ObjectID' as this is used internally.</p><p>type - the type of indexing to use.  Default is 'text'.</p><p>content_filter - a callback that should be used to transform the field value  prior to being indexed.  The callback will be called with one argument,  the field value as a string, and should return the transformed field value  also as a string.  Could be useful for eg. turning date strings into unix  timestamps prior to indexing.  A value of false will indicate that there  should be no content filtering, which is the default.</p><p>Class-level configuration should be a json-encoded string containing  key-value pairs for the class-level config options.  The format for  $classConfig is:</p><p><div class="src-code"><ol><li><div class="src-line">&nbsp;array<strong>(</strong></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#66cccc">'index_filter'&nbsp;</font>=&gt;&nbsp;<font color="#66cccc">'WHERE&nbsp;clause'</font></div></li>
+<li><div class="src-line">&nbsp;<strong>)</strong></div></li>
+</ol></div></p><p>index_filter - a string to be used as the second argument to  DataObject::get().  An example of how this might be used in a complex  situation:</p><p>'&quot;ID&quot; IN ( SELECT &quot;ID&quot; FROM &quot;This&quot; LEFT JOIN &quot;Other&quot; ON &quot;This&quot;.&quot;ID&quot; = &quot;Other&quot;.&quot;ThisID&quot; WHERE &quot;Other&quot;.&quot;ThisID&quot; IS NOT NULL )'</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong> $fieldConfig</strong>: </li>
+			<li><strong> $classConfig</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetExtraSearchFields" id="methodgetExtraSearchFields"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getExtraSearchFields</strong> (line <span class="linenumber">429</span>)
+ </h4> 
+<h4><i>Array</i> <strong>getExtraSearchFields(
+)</strong></h4>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<h5>Get an array of the class' extra search fieldnames that are indexed but  not searched.</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - An array of strings, each being the name of a field that                   is indexed but not searched.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetLuceneClassConfig" id="methodgetLuceneClassConfig"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getLuceneClassConfig</strong> (line <span class="linenumber">326</span>)
+ </h4> 
+<h4><i>void</i> <strong>getLuceneClassConfig(
+)</strong></h4>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<h5>Returns the class config array.</h5>
+<div class="desc"><p>Should be called as singleton('ClassName')-&gt;getLuceneClassConfig().</p></div>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetLuceneFieldConfig" id="methodgetLuceneFieldConfig"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getLuceneFieldConfig</strong> (line <span class="linenumber">285</span>)
+ </h4> 
+<h4><i>void</i> <strong>getLuceneFieldConfig(
+
+$fieldName)</strong></h4>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<h5>Returns the field config array for a given field.  Throws a user_error if  the field doesn't exist in the config.</h5>
+<div class="desc"><p><div class="src-code"><ol><li><div class="src-line">&nbsp;array<strong>(</strong></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#66cccc">'name'&nbsp;</font>=&gt;&nbsp;<font color="#66cccc">'FieldName'</font><strong>,</strong></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#66cccc">'type'&nbsp;</font>=&gt;&nbsp;<font color="#66cccc">'keyword|unindexed|unstored|text'</font><strong>,</strong></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#66cccc">'content_filter'&nbsp;</font>=&gt;&nbsp;<strong>[</strong>callback<strong>]</strong>|false</div></li>
+<li><div class="src-line">&nbsp;<strong>)</strong></div></li>
+</ol></div></p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong> $fieldName</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetSearchedVars" id="methodgetSearchedVars"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getSearchedVars</strong> (line <span class="linenumber">403</span>)
+ </h4> 
+<h4><i>Array</i> <strong>getSearchedVars(
+)</strong></h4>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<h5>Return an array of search field names.</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - An array of strings, each being the name of a field that                   is searched.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetSearchFields" id="methodgetSearchFields"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getSearchFields</strong> (line <span class="linenumber">417</span>)
+ </h4> 
+<h4><i>Array</i> <strong>getSearchFields(
+)</strong></h4>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<h5>Get an array of the class' searched fieldnames from other classes.</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - An array of strings, each being the name of a field that                   is indexed.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodonAfterDelete" id="methodonAfterDelete"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method onAfterDelete</strong> (line <span class="linenumber">392</span>)
+ </h4> 
+<h4><i>void</i> <strong>onAfterDelete(
+)</strong></h4>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<h5>Removes the object from the search index after it has been deleted.</h5>
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="methodonAfterWrite" id="methodonAfterWrite"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method onAfterWrite</strong> (line <span class="linenumber">375</span>)
+ </h4> 
+<h4><i>void</i> <strong>onAfterWrite(
+)</strong></h4>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<h5>Indexes the object after it has been written to the database.</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodrequireDefaultRecords" id="methodrequireDefaultRecords"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method requireDefaultRecords</strong> (line <span class="linenumber">442</span>)
+ </h4> 
+<h4><i>void</i> <strong>requireDefaultRecords(
+)</strong></h4>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<h5>Rebuilds the search index whenever a dev/build is run.</h5>
+<div class="desc"><p>This can be turned off by adding the following to your _config.php:</p><p><div class="src-code"><ol><li><div class="src-line">&nbsp;<a href="../lucene-silverstripe-module/ZendSearchLuceneSearchable.html">ZendSearchLuceneSearchable</a><strong>::</strong><strong>$reindexOnDevBuild&nbsp;</strong>=&nbsp;false<strong>;</strong></div></li>
+</ol></div></p></div>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage2" ) );</script></div>
+<div class="tab-page" id="iVars">
+<h2 class="tab">Inherited Variables</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iVars" ) );</script>
+<!-- =========== VAR INHERITED SUMMARY =========== -->
+<A NAME='var_inherited_summary'><!-- --></A>
+<h3>Inherited Class Variable Summary</h3>
+
+	</div>
+<div class="tab-page" id="iMethods">
+<h2 class="tab">Inherited Methods</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iMethods" ) );</script>
+<!-- =========== INHERITED METHOD SUMMARY =========== -->
+<A NAME='functions_inherited'><!-- --></A>
+<h3>Inherited Method Summary</h3>
+
+	</div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+
+setupAllTabs();
+
+//]]>
+</script>
+	<div id="credit">
+		<hr />
+		Documentation generated on Wed, 06 Apr 2011 14:30:28 +1200 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
+	</div>
+</body>
+</html>

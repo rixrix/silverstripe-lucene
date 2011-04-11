@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+   <html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Docs For Class ZendSearchLuceneContentController</title>
+  <link rel="stylesheet" href="../media/stylesheet.css" />
+  <script src="../media/lib/classTree.js"></script>
+<link id="webfx-tab-style-sheet" type="text/css" rel="stylesheet" href="../media/lib/tab.webfx.css" />
+<script type="text/javascript" src="../media/lib/tabpane.js"></script>
+  <script language="javascript" type="text/javascript" src="../media/lib/ua.js"></script>
+<script language="javascript" type="text/javascript">
+	var imgPlus = new Image();
+	var imgMinus = new Image();
+	imgPlus.src = "../media/images/plus.gif";
+	imgMinus.src = "../media/images/minus.gif";
+	
+	function showNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgMinus.src;
+		oTable.style.display = "block";
+	}
+	
+	function hideNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgPlus.src;
+		oTable.style.display = "none";
+	}
+	
+	function nodeIsVisible(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+        		break;
+        }
+		return (oTable && oTable.style.display == "block");
+	}
+	
+	function toggleNodeVisibility(Node){
+		if (nodeIsVisible(Node)){
+			hideNode(Node);
+		}else{
+			showNode(Node);
+		}
+	}
+</script>
+<!-- template designed by Julien Damon based on PHPEdit's generated templates, and tweaked by Greg Beaver -->
+<body bgcolor="#ffffff" ><!-- Start of Class Data -->
+<h2>
+	Class ZendSearchLuceneContentController
+</h2> (line <span class="linenumber">9</span>)
+<div class="tab-pane" id="tabPane1">
+<script type="text/javascript">
+tp1 = new WebFXTabPane( document.getElementById( "tabPane1" ));
+</script>
+
+<div class="tab-page" id="Description">
+<h2 class="tab">Description</h2>
+<pre>
+Extension
+   |
+   --ZendSearchLuceneContentController</pre>
+<p>
+	<b><i>Located in File: <a href="_ZendSearchLuceneContentController.php.html">/ZendSearchLuceneContentController.php</a></i></b><br>
+</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Extension to provide a search interface when applied to ContentController.</h5>
+<ul>
+		<li><strong>author:</strong> - Darren Inwood &lt;<a href="mailto:darren.inwood@chrometoaster.com">darren.inwood@chrometoaster.com</a>&gt;</li>
+	</ul>
+<br /><hr />
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "Description" ) );</script>
+<div class="tab-page" id="tabPage1">
+
+<h2 class="tab">Class Variables</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="var-title">
+    static <span class="var-type">mixed</span>
+    <a href="#var$allowed_actions" title="details" class="property"><strong>$allowed_actions</strong></a>
+</div>
+<hr />
+<a name="var$allowed_actions" id="var$allowed_actions"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">static $allowed_actions = array(<br />		'ZendSearchLuceneForm',<br />		'ZendSearchLuceneResults',<br />		'results'<br />	)</strong> (line <span class="linenumber">16</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Enables the search form to talk to the controller.</h5>
+<ul>
+		<li><strong>access:</strong> - public</li>
+	</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage1" ) );</script>
+</div>
+<div class="tab-page" id="constantsTabpage">
+
+<h2 class="tab">Class Constants</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<hr />
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "constantsTabpage" ) );</script>
+</div>
+<div class="tab-page" id="tabPage2">
+<h2 class="tab">Method Detail</h2>
+<!-- ============ METHOD DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="method-summary">
+    <div class="method-definition">
+            <span class="method-result">Array</span>
+        <a href="#methodgetDataArrayFromHits" title="details" class="method-name">getDataArrayFromHits</a>
+        (<span class="var-type">Array</span>&nbsp;<span class="var-name">$hits</span>, <span class="var-type">SS_HTTPRequest</span>&nbsp;<span class="var-name">$request</span>)
+        </div>
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodresults" title="details" class="method-name">results</a>
+        (<span class="var-type"></span>&nbsp;<span class="var-name">$data</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$form</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$request</span>)
+        </div>
+    <div class="method-definition">
+            <span class="method-result">String</span>
+        <a href="#methodSearchForm" title="details" class="method-name">SearchForm</a>
+        ()
+        </div>
+    <div class="method-definition">
+            <span class="method-result">Form</span>
+        <a href="#methodZendSearchLuceneForm" title="details" class="method-name">ZendSearchLuceneForm</a>
+        ()
+        </div>
+    <div class="method-definition">
+            <span class="method-result">String</span>
+        <a href="#methodZendSearchLuceneResults" title="details" class="method-name">ZendSearchLuceneResults</a>
+        (<span class="var-type">array</span>&nbsp;<span class="var-name">$data</span>, <span class="var-type">Form</span>&nbsp;<span class="var-name">$form</span>, <span class="var-type">SS_HTTPRequest</span>&nbsp;<span class="var-name">$request</span>)
+        </div>
+</div>
+<hr />
+<A NAME='method_detail'></A>
+
+
+<a name="methodgetDataArrayFromHits" id="methodgetDataArrayFromHits"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getDataArrayFromHits</strong> (line <span class="linenumber">131</span>)
+ </h4> 
+<h4><i>Array</i> <strong>getDataArrayFromHits(
+Array
+$hits, SS_HTTPRequest
+$request)</strong></h4>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<h5>Returns a data array suitable for customising a Page with, containing  search result and pagination information.</h5>
+<div class="desc"><p>Returns a data array suitable for customising a Page with, containing  search result and pagination information.  The format of the return is:</p><p><div class="src-code"><ol><li><div class="src-line">&nbsp;array<strong>(</strong></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#66cccc">'Results'&nbsp;</font>=&gt;&nbsp;DataObjectSet&nbsp;containing&nbsp;the&nbsp;objects&nbsp;found&nbsp;by&nbsp;the&nbsp;search</div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;on&nbsp;the&nbsp;currently&nbsp;displayed&nbsp;page</div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#66cccc">'Query'&nbsp;</font>=&gt;&nbsp;The&nbsp;original&nbsp;query&nbsp;contained&nbsp;in&nbsp;a&nbsp;TextField&nbsp;object</div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#66cccc">'Title'&nbsp;</font>=&gt;&nbsp;The&nbsp;page&nbsp;title&nbsp;contained&nbsp;in&nbsp;a&nbsp;TextField&nbsp;object</div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#66cccc">'TotalResults'&nbsp;</font>=&gt;&nbsp;The&nbsp;total&nbsp;number&nbsp;of&nbsp;<a href="../lucene-silverstripe-module/ZendSearchLuceneContentController.html#methodresults">results</a>&nbsp;found<strong>,&nbsp;</strong>as&nbsp;a&nbsp;TextField</div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#66cccc">'TotalPages'&nbsp;</font>=&gt;&nbsp;The&nbsp;total&nbsp;number&nbsp;of&nbsp;pages<strong>,&nbsp;</strong>as&nbsp;a&nbsp;TextField</div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#66cccc">'ThisPage'&nbsp;</font>=&gt;&nbsp;Page&nbsp;number&nbsp;of&nbsp;the&nbsp;<a href="http://www.php.net/current">current</a>&nbsp;page<strong>,&nbsp;</strong>as&nbsp;a&nbsp;TextField</div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#66cccc">'StartResult'&nbsp;</font>=&gt;&nbsp;Number&nbsp;of&nbsp;the&nbsp;first&nbsp;result&nbsp;displayed&nbsp;on&nbsp;the&nbsp;<a href="http://www.php.net/current">current</a></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;page.</div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#66cccc">'EndResult'&nbsp;</font>=&gt;&nbsp;Number&nbsp;of&nbsp;the&nbsp;last&nbsp;result&nbsp;displayed&nbsp;on&nbsp;the&nbsp;<a href="http://www.php.net/current">current</a></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;page.</div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#66cccc">'PrevUrl'&nbsp;</font>=&gt;&nbsp;URL&nbsp;to&nbsp;get&nbsp;to&nbsp;the&nbsp;previous&nbsp;page&nbsp;of&nbsp;<a href="../lucene-silverstripe-module/ZendSearchLuceneContentController.html#methodresults">results</a>.&nbsp;&nbsp;False&nbsp;<font color="blue">if</font></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;there&nbsp;are&nbsp;no&nbsp;<a href="../lucene-silverstripe-module/ZendSearchLuceneContentController.html#methodresults">results</a>.&nbsp;A&nbsp;TextField&nbsp;object.</div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#66cccc">'NextUrl&nbsp;=&gt;&nbsp;URL&nbsp;to&nbsp;get&nbsp;to&nbsp;the&nbsp;next&nbsp;page&nbsp;of&nbsp;results.&nbsp;&nbsp;False&nbsp;if&nbsp;there</font></div></li>
+<li><div class="src-line"><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;are&nbsp;no&nbsp;results.&nbsp;A&nbsp;TextField&nbsp;object.</font></div></li>
+<li><div class="src-line"><font color="#66cccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'</font>SearchPages&nbsp;=&gt;&nbsp;A&nbsp;DataObjectSet&nbsp;containing&nbsp;the&nbsp;search&nbsp;pages&nbsp;to&nbsp;show</div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;in&nbsp;pagination.</div></li>
+<li><div class="src-line">&nbsp;<strong>)</strong></div></li>
+</ol></div></p><p>Each result in Results is a bona fide DataObject stored in the database.  This may be any of the types searched, so you should ensure your search  results template can display all types that can be returned.</p><p>SearchPages contains a set of Objects that have three parameters:  <ul><li>Link - the URL this page should link to.</li><li>Current - a boolean indicating whether this page is the currently
+   displayed page.</li><li>IsEllipsis - a boolean indicating whether this page is actually an
+   ellipsis indicating more pages that aren't shown.</li></ul></p><p>Uses the ZendSearchLuceneSearchable::$pageLength,  ZendSearchLuceneSearchable::$alwaysShowPages and  ZendSearchLuceneSearchable::$maxShowPages static vars to indicate the  pagination structure.</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>Array $hits</strong>: An array of Zend_Search_Lucene_Search_QueryHit objects</li>
+			<li><strong>SS_HTTPRequest $request</strong>: The request that generated the search</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - A custom array containing pagination data.</li>
+			<li><strong>access</strong> - protected</li>
+		</ul>
+</div>
+<a name="methodresults" id="methodresults"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method results</strong> (line <span class="linenumber">54</span>)
+ </h4> 
+<h4><i>void</i> <strong>results(
+
+$data, 
+$form, 
+$request)</strong></h4>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<h5>Wrapper around ZendSearchLuceneResults, for when we are using $SearchForm  in templates.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong> $data</strong>: </li>
+			<li><strong> $form</strong>: </li>
+			<li><strong> $request</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodSearchForm" id="methodSearchForm"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method SearchForm</strong> (line <span class="linenumber">66</span>)
+ </h4> 
+<h4><i>String</i> <strong>SearchForm(
+)</strong></h4>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<h5>Makes $SearchForm included in many stock templates return a Lucene form  analogous to the one that the FulltextSearchable extension outputs. Uses  the SearchForm.ss template that comes with Sapphire (or an overridden  custom version if one is available, as per the regular SearchForm).</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - The rendered form, for inclusion into the page template.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodZendSearchLuceneForm" id="methodZendSearchLuceneForm"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method ZendSearchLuceneForm</strong> (line <span class="linenumber">28</span>)
+ </h4> 
+<h4><i>Form</i> <strong>ZendSearchLuceneForm(
+)</strong></h4>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<h5>Returns the Lucene-powered search Form object.</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - A Form object representing the search form.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodZendSearchLuceneResults" id="methodZendSearchLuceneResults"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method ZendSearchLuceneResults</strong> (line <span class="linenumber">42</span>)
+ </h4> 
+<h4><i>String</i> <strong>ZendSearchLuceneResults(
+array
+$data, Form
+$form, SS_HTTPRequest
+$request)</strong></h4>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<h5>Process and render search results. Uses the Lucene_results.ss template to  render the form.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>array $data</strong>: The raw request data submitted by user</li>
+			<li><strong>Form $form</strong>: The form instance that was submitted</li>
+			<li><strong>SS_HTTPRequest $request</strong>: Request generated for this action</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - The rendered form, for inclusion into the page template.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage2" ) );</script></div>
+<div class="tab-page" id="iVars">
+<h2 class="tab">Inherited Variables</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iVars" ) );</script>
+<!-- =========== VAR INHERITED SUMMARY =========== -->
+<A NAME='var_inherited_summary'><!-- --></A>
+<h3>Inherited Class Variable Summary</h3>
+
+	</div>
+<div class="tab-page" id="iMethods">
+<h2 class="tab">Inherited Methods</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iMethods" ) );</script>
+<!-- =========== INHERITED METHOD SUMMARY =========== -->
+<A NAME='functions_inherited'><!-- --></A>
+<h3>Inherited Method Summary</h3>
+
+	</div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+
+setupAllTabs();
+
+//]]>
+</script>
+	<div id="credit">
+		<hr />
+		Documentation generated on Wed, 06 Apr 2011 14:30:27 +1200 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
+	</div>
+</body>
+</html>
