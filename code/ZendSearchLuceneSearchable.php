@@ -208,7 +208,7 @@ class ZendSearchLuceneSearchable extends DataObjectDecorator {
         if ( ! $config ) return;
 
         // Is it a JSON-encoded array?
-        $json = json_decode($config);
+        $json = json_decode($config, true);
         if ( is_array($json) ) $config = $json;
 
         // Is is a comma-separated string?
